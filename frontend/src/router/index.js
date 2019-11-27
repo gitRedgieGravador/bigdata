@@ -62,11 +62,12 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
         if (store.getters.isLoggedIn) {
-            if (to.meta.permission == 'educator' && store.getters.permissionCode == 1) {
-                next('/educator')
-            } else {
-                next('/student')
-            }
+            // if (to.meta.permission == 'educator' && store.getters.permissionCode == 1) {
+            //     next('/educator')
+            // } else {
+            //     next('/student')
+            // }
+            next();
         } else {
             next({ path: "/" });
         }

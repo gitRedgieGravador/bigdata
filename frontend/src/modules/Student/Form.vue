@@ -1,4 +1,5 @@
 <template>
+import { log } from 'util';
   <div>
     <v-app id="inspire">
       <v-content>
@@ -12,20 +13,13 @@
                 </v-toolbar>
                 <v-card-text >
                   <v-form>
-                    <!-- <v-text-field label="Login" name="login" prepend-icon="mdi-person" type="text"/>
-                    <v-text-field
-                      id="password"
-                      label="Password"
-                      name="password"
-                      prepend-icon="lock"
-                      type="password"
-                    />-->
                     <v-select
                       v-model="selectBatch"
                       :items="batch"
                       :rules="[v => !!v || 'Batch is required']"
                       label="Batch"
                       required
+                      focus
                     ></v-select>
                     <v-text-field
                       v-model="name"
@@ -67,12 +61,13 @@
                       label="Request Description"
                       value
                       :rules="[v => !!v || 'Description is required']"
+                      v-model="description"
                     ></v-textarea>
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn dark outlined color="orange" block large class="spacing">Submit</v-btn>
+                  <v-btn @click="sendRequest" dark outlined color="orange" block large class="spacing">Submit</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -107,8 +102,22 @@ export default {
         "Center Supplies",
         "School Supplies"
       ],
-      title: ""
+      title: "",
+      description: ""
     };
+  },
+  methods:{
+    sendRequest(){
+      let body = {
+        name: this.name,
+        batch: this.selectBatch,
+        email: this.email,
+        category: this.category,
+        title: this.title,
+        description: this.description
+      }
+      console.log(body);
+    }
   }
 };
 </script>

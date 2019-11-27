@@ -35,7 +35,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit("auth_request");
                 axios({
-                        url: "http://localhost:3232/login",
+                        url: "http://localhost:3232/fakelogin",
                         data: user,
                         method: "POST"
                     })

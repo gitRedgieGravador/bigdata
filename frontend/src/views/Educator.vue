@@ -1,82 +1,88 @@
 <template>
   <div>
-    <v-card :height="ihieght" outlined>
-      <div class="mypri">
-        <h1>Dashboard</h1>
-      </div>
-      <hr>
-      <div v-if="resized" class="ml">red</div>
-      <div class="v-align">
-        <v-row>
-          <v-col>
-            <v-card outlined>
-              <div class="mypri"><h3>Request</h3></div>
-              <hr>
-              fbasdjfbasdkfbasdkfbksdafbkasdf
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card outlined>
-              <div class="mypri"><h3>Pending</h3></div>
-              <hr>
-              fbasdjfbasdkfbasdkfbksdafbkasdf
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-            </v-card>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-card outlined>
-              <div class="mypri"><h3>Approved Request</h3></div>
-              <hr>
-              fbasdjfbasdkfbasdkfbksdafbkasdf
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-            </v-card>
-          </v-col>
-          <v-col>
-            <v-card outlined>
-              <div class="mypri"><h3>Request</h3></div>
-              <hr>
-              fbasdjfbasdkfbasdkfbksdafbkasdf
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-              <br>
-            </v-card>
-          </v-col>
-        </v-row>
-      </div>
-    </v-card>
+    <center>
+      <v-card :height="ihieght" outlined>
+        <div class="mypri">
+          <h1>Dashboard</h1>
+        </div>
+        <hr>
+        <div v-if="resized" class="ml"></div>
+        <div class="v-align">
+          <v-row>
+            <v-col>
+              <v-card outlined>
+                <div class="mypri">
+                  <h3>Request</h3>
+                </div>
+                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </v-card>
+            </v-col>
+            <v-col>
+              <v-card outlined>
+                <div class="mypri">
+                  <h3>Pending</h3>
+                </div>
+                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-card outlined>
+                <div class="mypri">
+                  <h3>Approved Request</h3>
+                </div>
+                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </v-card>
+            </v-col>
+            <v-col>
+              <v-card outlined>
+                <div class="mypri">
+                  <h3>Request</h3>
+                </div>
+                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+              </v-card>
+            </v-col>
+          </v-row>
+        </div>
+      </v-card>
+    </center>
   </div>
 </template>
 <script>
@@ -88,7 +94,7 @@ export default {
       name: "",
       ihieght: 0,
       col12: "6",
-      resized:false
+      resized: false
     };
   },
   mounted() {
@@ -114,9 +120,9 @@ export default {
     handleResize() {
       if (window.innerWidth < 1200) {
         this.col12 = "12";
-        this.resized = true
+        this.resized = true;
       } else {
-        this.resized = false
+        this.resized = false;
         this.col12 = "6";
       }
     }
@@ -141,6 +147,6 @@ export default {
   color: white;
 }
 .ml {
-  margin-top:65%;
+  margin-top: 65%;
 }
 </style>

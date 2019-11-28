@@ -8,7 +8,7 @@
 
       <h1 v-show="!resized">PN Request Management System</h1>
       <v-spacer></v-spacer>
-      isStudent = {{isStudent}}
+      isStudent = {{isStudent}} , permission = {{permission}}
       <span v-if="isLoggedIn">
         <v-btn text @click="logout">
           <span class="mr-2">log out</span>
@@ -86,6 +86,9 @@ export default {
     },
     isStudent: function(){
       return this.$store.getters.isStudent;
+    },
+    permission: function(){
+      return this.$store.getters.permission;
     }
   },
   methods: {

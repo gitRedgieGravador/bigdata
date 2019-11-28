@@ -9,19 +9,15 @@ export default new Vuex.Store({
         permission: 0,
         token: localStorage.getItem("token") || null,
         user: {},
-        isStudent: true
+        isStudent: null
     },
     mutations: {
         auth_request(state) {
             state.status = "loading";
         },
-        auth_success(state, token, user, permission, isStudent) {
+        auth_success(state, token) {
             state.status = "success";
-            state.token = token;
-            state.user = user;
-            state.permission = permission;
-            state.isStudent = isStudent;
-            console.log("permission = ", permission, " and isStudent = ", isStudent);
+            state.token = token;   
         },
         auth_error(state) {
             state.status = "error";
@@ -29,6 +25,12 @@ export default new Vuex.Store({
         logout(state) {
             state.status = null;
             state.token = null;
+        },
+        auth_isStudent(state, isStudent){
+            state.isStudent = isStudent
+        },
+        auth_permission(state, permission){
+            state.permission = permission
         }
     },
     
@@ -50,14 +52,16 @@ export default new Vuex.Store({
                         // Add the following line:
                         let permission = 0;
                         let isStudent = true;
-                        console.log("been here")
+                        // console.log("been here")
                         if (user.isEducator) {
                             console.log("been here is educator")
                             permission = 1
                             isStudent = false
                         }
                         axios.defaults.headers.common["Authorization"] = token;
-                        commit("auth_success", token, user, permission, isStudent);
+                        commit("auth_success", token);
+                        commit("auth_isStudent", isStudent)
+                        commit("auth_permission", permission)
                         resolve(resp);
                     })
                     .catch(err => {
@@ -81,13 +85,18 @@ export default new Vuex.Store({
                         const token = resp.data.token;
                         const user = resp.data.user;
                         localStorage.setItem("token", token);
-                        // Add the following line:
-                        let getUser = 0;
-                        if (user.type == 'educator') {
-                            getUser = 1
+                        let permission = 0;
+                        let isStudent = true;
+                        // console.log("been here")
+                        if (user.isEducator) {
+                            console.log("been here is educator")
+                            permission = 1
+                            isStudent = false
                         }
                         axios.defaults.headers.common["Authorization"] = token;
-                        commit("auth_success", token, user, getUser);
+                        commit("auth_success", token);
+                        commit("auth_isStudent", isStudent)
+                        commit("auth_permission", permission)
                         resolve(resp);
                     })
                     .catch(err => {

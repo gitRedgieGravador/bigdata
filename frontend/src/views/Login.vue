@@ -17,6 +17,7 @@
                 label="Username"
                 v-model="username"
                 color="black"
+                autocomplete="false"
               />
               <v-text-field
                 @click:append="showpass = !showpass"

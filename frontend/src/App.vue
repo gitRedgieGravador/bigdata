@@ -70,7 +70,7 @@ export default {
     return {
       drawer: false,
       resized: false,
-      isStudent: false
+      //isStudent: false
     };
   },
   created() {

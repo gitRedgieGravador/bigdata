@@ -1,5 +1,4 @@
 <template>
-import { log } from 'util';
   <div>
     <v-app id="inspire">
       <v-content>
@@ -78,6 +77,7 @@ import { log } from 'util';
   </div>
 </template>
 <script>
+/* eslint-disable */
 export default {
   name: "form",
   data() {

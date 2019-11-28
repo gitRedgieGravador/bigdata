@@ -1,6 +1,6 @@
   var mongoose = require('mongoose')
 
-  var mongoDB = 'mongodb://127.0.0.1/bigdatadb';
+  var mongoDB = 'mongodb://127.0.0.1/pnrequestdb';
   var onlineDb = "mongodb+srv://mrclay:Ymegr@v@dor@gravador-qools.mongodb.net/bigdatadb?retryWrites=true&w=majority"
   mongoose.connect(mongoDB, {
       useNewUrlParser: true,

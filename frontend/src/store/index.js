@@ -8,17 +8,19 @@ export default new Vuex.Store({
         status: "",
         permission: 0,
         token: localStorage.getItem("token") || null,
-        user: {}
+        user: {},
+        isStudent: null
     },
     mutations: {
         auth_request(state) {
             state.status = "loading";
         },
-        auth_success(state, token, user, getUser) {
+        auth_success(state, token, user, getUser, isStudent) {
             state.status = "success";
             state.token = token;
             state.user = user;
             state.permission = getUser;
+            state.isStudent = isStudent
         },
         auth_error(state) {
             state.status = "error";
@@ -35,7 +37,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 commit("auth_request");
                 axios({
-                        url: "http://localhost:3232/fakelogin",
+                        url: "http://localhost:3232/login",
                         data: user,
                         method: "POST"
                     })
@@ -45,11 +47,13 @@ export default new Vuex.Store({
                         localStorage.setItem("token", token);
                         // Add the following line:
                         let getUser = 0;
-                        if (user.type == 'educator') {
+                        let isStudent = true;
+                        if (user.isEducator) {
                             getUser = 1
+                            isStudent = false
                         }
                         axios.defaults.headers.common["Authorization"] = token;
-                        commit("auth_success", token, user, getUser);
+                        commit("auth_success", token, user, getUser, isStudent);
                         resolve(resp);
                     })
                     .catch(err => {
@@ -103,6 +107,7 @@ export default new Vuex.Store({
     getters: {
         isLoggedIn: state => !!state.token,
         authStatus: state => state.status,
+        isStudent: state => state.isStudent,
         permissionCode: state => state.permission,
     },
     modules: {}

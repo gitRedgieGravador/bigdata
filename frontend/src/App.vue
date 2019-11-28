@@ -8,6 +8,7 @@
 
       <h1 v-show="!resized">PN Request Management System</h1>
       <v-spacer></v-spacer>
+      isStudent = {{isStudent}}
       <span v-if="isLoggedIn">
         <v-btn text @click="logout">
           <span class="mr-2">log out</span>
@@ -69,7 +70,7 @@ export default {
     return {
       drawer: false,
       resized: false,
-      isStudent: true
+      isStudent: false
     };
   },
   created() {
@@ -82,6 +83,9 @@ export default {
   computed: {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
+    },
+    isStudent: function(){
+      return this.$store.getters.isStudent;
     }
   },
   methods: {

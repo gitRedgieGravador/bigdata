@@ -53,7 +53,8 @@ export default {
   },
   methods: {
     login() {
-      let body = { username: this.username, password: this.password };
+      //let register = { username: "student", password: "student", isEducator: false }
+      let body = { username: this.username, password: this.password};
       this.$store
         .dispatch("login", body)
         .then((resp) => {

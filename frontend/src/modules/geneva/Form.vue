@@ -1,16 +1,16 @@
 <template>
   <div>
-    <v-app id="inspire">
+    <v-app>
       <v-content>
         <v-container class="fill-height" fluid>
           <v-row align="center" justify="center">
             <v-col cols="12" sm="8" md="4">
-              <v-card outlined>
+              <v-card class="elevation-12">
                 <v-toolbar color="primary" dark flat>
                   <v-toolbar-title>Fill in the following information</v-toolbar-title>
                   <v-spacer />
                 </v-toolbar>
-                <v-card-text >
+                <v-card-text>
                   <v-form>
                     <v-select
                       v-model="selectBatch"
@@ -18,14 +18,21 @@
                       :rules="[v => !!v || 'Batch is required']"
                       label="Batch"
                       required
-                      focus
                     ></v-select>
                     <v-text-field
                       v-model="name"
                       prepend-icon="mdi-account"
-                      :counter="25"
+                      :counter="15"
                       :rules="nameRules"
-                      label="Full Name"
+                      label="Firstname"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="lastname"
+                      prepend-icon="mdi-account"
+                      :counter="15"
+                      :rules="lastnameRules"
+                      label="Lastname"
                       required
                     ></v-text-field>
 
@@ -53,20 +60,47 @@
                       label="Request Title"
                       required
                     ></v-text-field>
+                    <v-dialog
+                      ref="dialog"
+                      v-model="modal"
+                      :return-value.sync="date"
+                      persistent
+                      width="290px"
+                    >
+                      <template v-slot:activator="{ on }">
+                        <v-text-field
+                          v-model="date"
+                          label="Date Needed"
+                          prepend-icon="mdi-calendar"
+                          readonly
+                          v-on="on"
+                          
+                        ></v-text-field>
+                      </template>
+                      <v-date-picker
+                        v-model="date"
+                        scrollable
+                        :min="currentDate"
+                      >
+                        <v-spacer></v-spacer>
+                        <v-btn text color="primary" @click="modal = false">Cancel</v-btn>
+                        <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                      </v-date-picker>
+                    </v-dialog>
                     <br />
                     <v-textarea
                       outlined
+                      v-model="description"
                       name="input-7-4"
                       label="Request Description"
                       value
                       :rules="[v => !!v || 'Description is required']"
-                      v-model="description"
                     ></v-textarea>
                   </v-form>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn @click="sendRequest" dark outlined color="orange" block large class="spacing">Submit</v-btn>
+                  <v-btn color="orange" @click="sendRequest">Submit</v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
@@ -77,16 +111,24 @@
   </div>
 </template>
 <script>
-/* eslint-disable */
+import axios from 'axios'
 export default {
-  name: "form",
+  name: "studentform",
   data() {
     return {
+      modal: false,
+      //disable: true,
+      description: "",
       valid: true,
       name: "",
       nameRules: [
-        v => !!v || "Name is required",
-        v => (v && v.length <= 25) || "Name must be less than 25 characters"
+        v => !!v || "Firstname is required",
+        v => (v && v.length <= 15) || "Name must be less than 15 characters"
+      ],
+      lastname: "",
+      lastnameRules: [
+        v => !!v || "Lastname is required",
+        v => (v && v.length <= 15) || "Name must be less than 15 characters"
       ],
       email: "",
       emailRules: [
@@ -96,35 +138,42 @@ export default {
       selectBatch: null,
       batch: ["2020", "2021", "2022"],
       selectCategory: null,
+      date: null,
+      currentDate: new Date().toISOString().substr(0, 10),
       category: [
         "Personal",
         "Whole Batch",
         "Center Supplies",
         "School Supplies"
       ],
-      title: "",
-      description: ""
+      title: ""
     };
   },
-  methods:{
-    sendRequest(){
+  methods: {
+    /* eslint-disable */
+    sendRequest() {
       let body = {
-        name: this.name,
         batch: this.selectBatch,
+        category: this.selectCategory,
+        firstname: this.name,
+        lastname: this.lastname,
         email: this.email,
-        category: this.category,
-        title: this.title,
-        description: this.description
-      }
-      console.log(body);
+        what: this.title,
+        when: this.date,
+        why: this.description,
+        status: "unread",
+        statusDate: new Date(),
+        dateOfSubmit: new Date()
+      };
+      let url = 'http://localhost:3232/addRequest'
+      axios.post(url, body).then(resp=>{
+        console.log(resp)
+      }).catch(err=>{
+        console.log(err)
+      })
+      
+      //console.log(body);
     }
   }
 };
 </script>
-<style scoped>
-.spacing {
-    position: relative;
-    letter-spacing: 20px !important;
-    font-weight: bolder;
-}
-</style>

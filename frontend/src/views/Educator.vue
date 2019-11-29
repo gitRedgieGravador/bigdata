@@ -88,6 +88,8 @@
 <script>
 /* eslint-disable */
 //import Sidebar from "../components/Sidebar";
+import axios from 'axios';
+import { log } from 'util';
 export default {
   name: "educator",
   data() {
@@ -102,6 +104,7 @@ export default {
   //   this.ihieght = window.innerHeight - window.innerHeight / 10;
   // },
   mounted() {
+    this.getMost()
     this.ihieght = window.innerHeight - window.innerHeight / 10;
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
@@ -139,6 +142,14 @@ export default {
         this.resized = false;
         this.col12 = "6";
       }
+    },
+    getMost(){
+      axios.post('http://localhost:3232/mostRequest').then(resp=>{
+        console.log("resp",resp)
+      }).catch(err=>{
+        console.log("err",err);
+        
+      })
     }
   }
 };

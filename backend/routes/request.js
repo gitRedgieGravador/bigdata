@@ -2,15 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const Request = require('../models/request')
-const bcrypt = require('bcryptjs');
-const saltRounds = 10;
-const jwt = require('jsonwebtoken')
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
-
+const sender = require("../email")
 
 router.post('/addRequest', (req, res) => {
-    var user = new Request(req.query)
+    var user = new Request(req.body)
+    // var email = req.body.email
+    // let body = {title: req.body.what, date:req.body.when}
+    //     sender.sendEmail(email, body).then(resp=>{
+    //         console.log(resp)
+    //     }).catch(err=>{
+    //         //console.log(err)
+    //     })
     user.save((err, data) => {
         if (err) return res.send(err);
         return res.send({ message: "Successfully Saved", data });
@@ -77,14 +81,15 @@ router.post('/mostRequest', (req, res) => {
         //     }
         // },
         { "$sortByCount": "$category" }]).then(resp => {
-            Request.find({ category: resp[0]._id }).then(resp => {
+            var categoryi = resp[0]._id
+            Request.find({ category: categoryi}).then(resp => {
                 var tempArray = []
                 resp.forEach(category => {
                     tempArray.push(category._id)
                 });
                 console.log("test 1");
                 try {
-                    var most = new Most({ category: resp[0]._id, cutOff: new Date(), itemIds: tempArray })
+                    var most = new Most({ category: categoryi, cutOff: new Date(), itemIds: tempArray })
                     console.log("test 2");
                     most.save().then(savemost => {
                         console.log("test 3");

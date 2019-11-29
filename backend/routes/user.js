@@ -9,13 +9,9 @@ router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
 router.post("/register", function (req, res) {
-  console.log("test 1")
   var user = new User(req.body);
-  console.log("test 2")
   user.password = bcrypt.hashSync(user.password, saltRounds);
-  console.log("test 3")
   user.save(function (err, resp) {
-    console.log("test 4")
     if (err) {
       return res.send("error on saving!!");
     } else {

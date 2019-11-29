@@ -63,9 +63,9 @@ router.beforeEach((to, from, next) => {
     if (to.matched.some(route => route.meta.requiresAuth)) {
         if (store.getters.isLoggedIn) {
             // if (to.meta.permission == 'educator' && store.getters.permissionCode == 1) {
-            //     next('/educator')
+            //     next({path:'/educator'})
             // } else {
-            //     next('/student')
+            //     next({path:'/student'})
             // }
             next();
         } else {

@@ -5,7 +5,7 @@
         <div class="mypri">
           <h1>Dashboard</h1>
         </div>
-        <hr>
+        <hr />
         <div v-if="resized" class="ml"></div>
         <div class="v-align">
           <v-row>
@@ -14,16 +14,16 @@
                 <div class="mypri">
                   <h3>Request</h3>
                 </div>
-                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
               </v-card>
             </v-col>
             <v-col>
@@ -31,16 +31,16 @@
                 <div class="mypri">
                   <h3>Pending</h3>
                 </div>
-                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
               </v-card>
             </v-col>
           </v-row>
@@ -50,16 +50,16 @@
                 <div class="mypri">
                   <h3>Approved Request</h3>
                 </div>
-                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
               </v-card>
             </v-col>
             <v-col>
@@ -67,16 +67,16 @@
                 <div class="mypri">
                   <h3>Request</h3>
                 </div>
-                <hr>fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
+                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
               </v-card>
             </v-col>
           </v-row>
@@ -86,6 +86,7 @@
   </div>
 </template>
 <script>
+/* eslint-disable */
 //import Sidebar from "../components/Sidebar";
 export default {
   name: "educator",
@@ -97,18 +98,31 @@ export default {
       resized: false
     };
   },
+  // mounted() {
+  //   this.ihieght = window.innerHeight - window.innerHeight / 10;
+  // },
   mounted() {
     this.ihieght = window.innerHeight - window.innerHeight / 10;
-  },
-  created() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
+    //most frequent
+    this.isCutOff();
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
   },
 
   methods: {
+    isCutOff() {
+      var date = new Date()
+      var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      if(lastDay == date){
+        console.log("todaY")
+      }else{
+        console.log("not today")
+      }
+    },
     logout: function() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");

@@ -8,7 +8,6 @@
 
       <h1 v-show="!resized">PN Request Management System</h1>
       <v-spacer></v-spacer>
-      isStudent = {{isStudent}} , permission = {{permission}}
       <span v-if="isLoggedIn">
         <v-btn text @click="logout">
           <span class="mr-2">log out</span>
@@ -89,6 +88,16 @@ export default {
     },
     permission: function(){
       return this.$store.getters.permission;
+    }
+  },
+  watch: {
+    path() {
+      if (this.$router.currentRoute.path == "/") {
+        this.isLoggedIn = false
+        this.isStudent = false
+      } else if(this.$router.currentRoute.path != "/student") {
+        this.isStudent = false
+      }
     }
   },
   methods: {

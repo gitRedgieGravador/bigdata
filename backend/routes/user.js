@@ -8,13 +8,13 @@ const jwt = require("jsonwebtoken");
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
 
-router.post("/register", function(req, res) {
+router.post("/register", function (req, res) {
   console.log("test 1")
   var user = new User(req.body);
   console.log("test 2")
   user.password = bcrypt.hashSync(user.password, saltRounds);
   console.log("test 3")
-  user.save(function(err, resp) {
+  user.save(function (err, resp) {
     console.log("test 4")
     if (err) {
       return res.send("error on saving!!");
@@ -27,9 +27,9 @@ router.post("/register", function(req, res) {
   });
 });
 
-router.post("/getuser", function(req, res) {
+router.post("/getuser", function (req, res) {
   let usernamei = req.body.username;
-  User.findOne({ username: usernamei }, function(err, data) {
+  User.findOne({ username: usernamei }, function (err, data) {
     if (err) {
       return res.send(err);
     }
@@ -41,8 +41,8 @@ router.post("/getuser", function(req, res) {
   });
 });
 
-router.delete("/deleteuser", function(req, res) {
-  User.remove({}, function(err, resp) {
+router.delete("/deleteuser", function (req, res) {
+  User.remove({}, function (err, resp) {
     if (err) {
       return res.send(err);
     } else {
@@ -51,10 +51,10 @@ router.delete("/deleteuser", function(req, res) {
   });
 });
 
-router.post("/login", function(req, res) {
+router.post("/login", function (req, res) {
   var usernamei = req.body.username;
   var passwordi = req.body.password;
-  User.findOne({ username: usernamei }, function(err, data) {
+  User.findOne({ username: usernamei }, function (err, data) {
     if (err) {
       return res.send(err);
     }
@@ -90,15 +90,15 @@ router.post("/login", function(req, res) {
 router.post("/socket", (req, res) => {
 });
 
-router.post('/fakelogin', function(req, res) {
-        var data = req.body
-        var acc_token = jwt.sign(data, "token1234", { expiresIn: "12h" })
-        res.send({
-            status: true,
-            auth: true,
-            user: { type: 'educator' },
-            token: acc_token,
-            sms: "success"
-        })
-    })
+//var helper =  require('../controller/mostFrequent')
+router.post('/fakelogin', function (req, res) {
+  helper.findMost().then(resp=>{
+    res.send(resp)
+  }).catch(err=>{
+    res.send(err)
+  })
+})
+
+
+
 module.exports = router;

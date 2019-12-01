@@ -9,6 +9,7 @@ import Sockets from '../modules/sample.vue'
 import Educator from '../views/Educator.vue'
 import Student from '../modules/geneva/Form.vue'
 import Requests from '../modules/tibs/RequestContainer.vue'
+import Mostly from '../modules/redgie/MostlyRequested.vue'
 Vue.use(VueRouter);
 /* eslint-disable */
 const routes = [{
@@ -33,6 +34,13 @@ const routes = [{
     {
         path: "/student",
         component: Student,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/mostlyrequested",
+        component: Mostly,
         meta: {
             requiresAuth: true
         }

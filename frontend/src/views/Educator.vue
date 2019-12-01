@@ -89,7 +89,6 @@
 /* eslint-disable */
 //import Sidebar from "../components/Sidebar";
 import axios from 'axios';
-import { log } from 'util';
 export default {
   name: "educator",
   data() {
@@ -104,12 +103,13 @@ export default {
   //   this.ihieght = window.innerHeight - window.innerHeight / 10;
   // },
   mounted() {
-    this.getMost()
+    this.$router.push('/mostlyrequested')
+    ///this.getMost()
     this.ihieght = window.innerHeight - window.innerHeight / 10;
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
     //most frequent
-    this.isCutOff();
+    //this.isCutOff();
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -120,7 +120,7 @@ export default {
       var date = new Date()
       var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
       var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      if(lastDay == date){
+      if(firstDay == date){
         console.log("todaY")
       }else{
         console.log("not today")

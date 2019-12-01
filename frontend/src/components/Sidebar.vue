@@ -48,19 +48,28 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-list>
-                  <v-list-item link class="ml-6">
+                  <v-list-item link class="ml-6 text-center">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-areaspline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>Approved<br> Request</v-list-item-title>
                   </v-list-item>
-                  <v-list-item link class="ml-6">
+                  <v-list-item link class="ml-6 text-center">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>
                       TimeSpan
                       <br>Per Request
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostlyrequested')">
+                    <v-list-item-icon>
+                      <v-icon>mdi-chart-pie</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>
+                      Most Frequent
+                      <br>Request/month
                     </v-list-item-title>
                   </v-list-item>
                 </v-list>

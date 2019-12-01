@@ -15,11 +15,11 @@ const server = app.listen(port, function() {
     connect
 });
 
-var sendMail = require('./email')
-sendMail.sendEmail("redgie.gravador@student.passerellesnumeriques.org", "<h1>Hello this is sent via node<br/>BY:Redgie Gravador</h1>").then(resp=>{
-    console.log("Successfully Sent Email!!")
-}).catch(err=>{
-    console.log(err)
-})
+// var sendMail = require('./email')
+// sendMail.sendEmail("redgie.gravador@student.passerellesnumeriques.org", "<h1>Hello this is sent via node<br/>BY:Redgie Gravador</h1>").then(resp=>{
+//     console.log("Successfully Sent Email!!")
+// }).catch(err=>{
+//     console.log(err)
+// })
 const io = require("socket.io")(server);
 app.set('socketio', io);

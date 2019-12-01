@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const MostSchema = new Schema({
     category: {type: String, required: true},
-    cutOff: {type: Date, required: true, unique: true},
+    cutOff: {type: String, required: true, unique: true},
     itemIds: {type: Array, required: true}
 });
 

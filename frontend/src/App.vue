@@ -3,9 +3,8 @@
     <!-- 0, 153, 255 -->
     <v-app-bar app color="primary" dark>
       <div v-show="resized">
-        <v-app-bar-nav-icon v-if="isLoggedIn" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon v-if="isLoggedIn && !isStudent" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
-
       <h1 v-show="!resized">PN Request Management System</h1>
       <v-spacer></v-spacer>
       <span v-if="isLoggedIn">

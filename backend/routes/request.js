@@ -108,11 +108,11 @@ router.post("/mostRequest", (req, res) => {
         .then(resp => {
           var tempArray = [];
           resp.forEach(category => {
-            tempArray.push(category._id);
+            tempArray.push(category);
           });
           try {
             var date = new Date();
-            var datei = date.getMonth() - 2 + " " + date.getFullYear();
+            var datei = date.getMonth() + " " + date.getFullYear();
             var most = new Most({
               category: categoryi,
               cutOff: datei,
@@ -145,7 +145,7 @@ router.get("/mostRequest", (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      //handle response
+      res.send({dbres: docs})
     }
   });
 });

@@ -12,8 +12,41 @@
     </v-card>
     <v-expansion-panels focusable active>
       <v-expansion-panel v-for="(item,i) in mostly" :key="i">
-        <v-expansion-panel-header>{{item.category}}</v-expansion-panel-header>
-        <v-expansion-panel-content>{{item}}</v-expansion-panel-content>
+        <v-expansion-panel-header>
+          <v-row class="text-center">
+            <v-col>
+              <h4>Cut-Off: {{monthNames[parseInt(item.cutOff.split(" ")[0])]}} {{item.cutOff.split(" ")[1]}}</h4>
+            </v-col>
+            <v-col>
+              <h4>Category: {{item.category}}</h4>
+            </v-col>
+            <v-col>
+              <h4>Number of requests: {{item.itemIds.length}}</h4>
+            </v-col>
+          </v-row>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <br>
+          <v-expansion-panels focusable active>
+            <v-expansion-panel v-for="(request,i) in item.itemIds" :key="i">
+              <v-expansion-panel-header>
+                <v-row class="text-center">
+                  <v-col>
+                    <h5>Specific: {{request.what}}</h5>
+                  </v-col>
+                  <v-col>
+                    <h5>Date Approved: {{new Date(request.statusDate).toLocaleString()}}</h5>
+                  </v-col>
+                </v-row>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <p>{{request.batch}}</p>
+                <p>{{request.firstname}} {{request.lastname}}</p>
+                <p>{{request.why}}</p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
   </div>

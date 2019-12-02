@@ -227,6 +227,7 @@ export default {
         .post(url, body)
         .then(resp => {
           console.log(resp);
+          this.dialog = false
         })
         .catch(err => {
           console.log(err);

@@ -6,6 +6,7 @@
         <v-app-bar-nav-icon v-if="isLoggedIn && !isStudent" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
       <h1 v-show="!resized">PN Request Management System</h1>
+      <h1 v-show="resized">PNRMS</h1>
       <v-spacer></v-spacer>
       <span v-if="isLoggedIn">
         <v-btn text @click="logout">
@@ -31,7 +32,9 @@
             <Resizedbar/>
           </v-navigation-drawer>
           <center>
-            <router-view/>
+            <div class="wt95">
+              <router-view/>
+            </div>
           </center>
         </div>
         <div v-else>
@@ -41,14 +44,18 @@
             </v-col>
             <v-col class="text-center">
               <div class="wt95">
-                <router-view/>
+                <center>
+                  <router-view/>
+                </center>
               </div>
             </v-col>
           </v-row>
         </div>
       </div>
       <div v-show="!isLoggedIn">
-        <router-view/>
+          <center>
+            <router-view/>
+          </center>
       </div>
       <div v-show="isStudent && isLoggedIn">
         <router-view/>
@@ -67,7 +74,7 @@ export default {
   data() {
     return {
       drawer: false,
-      resized: false,
+      resized: false
       //isStudent: false
     };
   },
@@ -82,20 +89,21 @@ export default {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
     },
-    isStudent: function(){
+    isStudent: function() {
       return this.$store.getters.isStudent;
     },
-    permission: function(){
+    permission: function() {
       return this.$store.getters.permission;
     }
   },
   watch: {
     path() {
       if (this.$router.currentRoute.path == "/") {
-        this.isLoggedIn = false
-        this.isStudent = false
-      } else if(this.$router.currentRoute.path != "/student") {
-        this.isStudent = false
+        this.isLoggedIn = false;
+        this.isStudent = false;
+        this.logout();
+      } else if (this.$router.currentRoute.path != "/student") {
+        this.isStudent = false;
       }
     }
   },
@@ -121,6 +129,5 @@ export default {
 <style scoped>
 .wt95 {
   width: 95%;
-  margin-right: 5%;
 }
 </style>

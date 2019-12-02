@@ -90,20 +90,22 @@ const Most = require("../models/most");
 router.post("/mostRequest", (req, res) => {
   let lastDay = req.body.lastDay;
   let firstDay = req.body.firstDay;
+  console.log("enter here...")
   Request.aggregate([
-    // {
-    //     "$match": {
-    //         "statusDate": {
-    //             "$gt": firstDay,
-    //             "$lt": lastDay
-    //         }
-    //     }
-    // },
+    {
+        $match: {
+            statusDate: {//$regex: new RegExp('2019-10-', '')
+                "$gt": new Date('12/1/2019'),
+                "$lt": new Date('12/28/2019')
+            }
+        }
+    },
 
     { $sortByCount: "$category" }
   ])
     .then(resp => {
       var categoryi = resp[0]._id;
+      res.send(resp)
       Request.find({ category: categoryi })
         .then(resp => {
           var tempArray = [];

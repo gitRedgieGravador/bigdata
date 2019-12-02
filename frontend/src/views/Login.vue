@@ -54,10 +54,10 @@ export default {
   },
   methods: {
     login() {
-      //let register = { username: "edu", password: "edu", isEducator: true }
+      let register = { username: "educator", password: "educator", isEducator: false }
       let body = { username: this.username, password: this.password};
       this.$store
-        .dispatch("login", body)
+        .dispatch("register", register)
         .then((resp) => {
           if (resp.data.status){
             if(resp.data.user.isEducator){

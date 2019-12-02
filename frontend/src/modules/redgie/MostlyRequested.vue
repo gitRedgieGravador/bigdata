@@ -78,7 +78,7 @@ export default {
   },
 
   mounted() {
-    this.getMost();
+    this.addMost();
     //this.isCutOff();
   },
 
@@ -100,7 +100,7 @@ export default {
       axios
         .post("http://localhost:3232/mostRequest")
         .then(resp => {
-          console.log(resp.data.dbres);
+          console.log(resp);
           //this.mostly = resp.data.dbres;
         })
         .catch(err => {
@@ -111,6 +111,7 @@ export default {
       axios
         .get("http://localhost:3232/mostRequest")
         .then(resp => {
+          console.log("match:", resp)
           console.log(resp.data.dbres);
           this.mostly = resp.data.dbres;
         })

@@ -89,117 +89,137 @@ router.post("/numUnread", (req, res) => {
 const Most = require("../models/most");
 const Tempmost = require('../models/tempmost')
 const mongoose = require('mongoose')
-router.post('/cutoff', (req,res)=>{
+router.post('/cutoff', (req, res) => {
   console.log("cutoff-----")
-  let lastDay = req.body.lastDay;
-  let firstDay = req.body.firstDay;
-  Request.find({when: {$gte: "11/1/2019", $lt: "11/30/2019"}}).then(docs=>{
-    docs.forEach(each =>{
-      //console.log("each ===", each)
-      newddata = {
-        batch: each.batch,
-        category: each.category,
-        firstname: each.firstname,
-        lastname: each.lastname,
-        email: each.email,
-        what: each.what,
-        when: each.when,
-        why: each.why,
-        status: each.status,
-        statusDate: each.statusDate,
-        dateOfSubmit: each.dateOfSubmit
-      }
-      let temp = new Tempmost(newddata)
-      temp.save()
+  let lastDay = "11/1/2019";
+  let firstDay = "11/30/2019";
+  helper.addMost(firstDay, lastDay).then(resp => {
+    Tempmost.deleteMany({}).then(rev => {
+      console.log(rev)
     })
-    // Tempmost.find({}).then(resp=>{
-    //   res.send({dbres: resp})
-    // })
-    Tempmost.aggregate([
-      { $sortByCount: "$category" },
-      {$limit: 1}
-    ])
-      .then(resp => {
-        console.log("catid: ==",resp )
-        Tempmost.find({ category: categoryi })
-          .then(resp => {
-            var tempArray = [];
-            resp.forEach(category => {
-              tempArray.push(category);
-            });
-            try {
-              var date = new Date();
-              var datei = date.getMonth() + " " + date.getFullYear();
-              var most = new Most({
-                category: categoryi,
-                cutOff: datei,
-                itemIds: tempArray
-              });
-              most
-                .save()
-                .then(savemost => {
-                  res.send({ dbres: savemost });
-                })
-                .catch(err => {
-                  res.send(err);
-                });
-            } catch (err) {
-              res.send(err);
-            }
-          })
-          .catch(err => {
-            res.send(err);
-          });
-      })
-      .catch(err => {
-        res.send(err);
-      });
+    res.send(resp)
+  }).catch(err => {
+    Tempmost.deleteMany({}).then(rev => {
+      console.log(rev)
+    })
+    res.send(err)
   })
+  // Request.find({when: {$gte: "10/1/2019", $lt: "10/30/2019"}, status:"approved"}).then((docs)=>{
+  //   console.log("docs==", docs)
+  //   docs.forEach(each =>{
+  //     //console.log("each ===", each)
+  //     newddata = {
+  //       batch: each.batch,
+  //       category: each.category,
+  //       firstname: each.firstname,
+  //       lastname: each.lastname,
+  //       email: each.email,
+  //       what: each.what,
+  //       when: each.when,
+  //       why: each.why,
+  //       status: each.status,
+  //       statusDate: each.statusDate,
+  //       dateOfSubmit: each.dateOfSubmit
+  //     }
+  //     let temp = new Tempmost(newddata)
+  //     temp.save()
+  //   })
+  //   res.send("added!!!")
+  // })
 })
-router.post("/mostRequest", (req, res) => {
-  let lastDay = req.body.lastDay;
-  let firstDay = req.body.firstDay;
-  console.log("enter here...")
-  Request.aggregate([
-    { $sortByCount: "$category" }
-  ])
-    .then(resp => {
-      var categoryi = resp[0]._id;
-      res.send(resp)
-      Request.find({ category: categoryi })
-        .then(resp => {
-          var tempArray = [];
-          resp.forEach(category => {
-            tempArray.push(category);
-          });
-          try {
-            var date = new Date();
-            var datei = date.getMonth() + " " + date.getFullYear();
-            var most = new Most({
-              category: categoryi,
-              cutOff: datei,
-              itemIds: tempArray
-            });
-            most
-              .save()
-              .then(savemost => {
-                res.send({ dbres: savemost });
-              })
-              .catch(err => {
-                res.send(err);
-              });
-          } catch (err) {
-            res.send(err);
-          }
-        })
-        .catch(err => {
-          res.send(err);
-        });
-    })
-    .catch(err => {
-      res.send(err);
-    });
-});
+// router.post('/addtemptomost', (req, res)=>{
+//   Tempmost.aggregate([
+//     { $sortByCount: "$category" },
+//     {$limit: 1}
+//   ])
+//     .then(resp => {
+//       console.log("catid: ==",resp )
+//       var categoryi = resp._id
+//       Tempmost.find({ category: categoryi })
+//         .then(resp => {
+//           var tempArray = [];
+//           resp.forEach(category => {
+//             tempArray.push(category);
+//           });
+//           try {
+//             var date = new Date();
+//             var datei = date.getMonth() + " " + date.getFullYear();
+//             var most = new Most({
+//               category: categoryi,
+//               cutOff: datei,
+//               itemIds: tempArray
+//             });
+//             most
+//               .save()
+//               .then(savemost => {
+//                 Tempmost.remove({}).then(rev =>{
+//                   console.log("removed!!")
+//                 })
+//                 res.send({ dbres: savemost });
+//               })
+//               .catch(err => {
+//                 res.send(err);
+//               });
+//           } catch (err) {
+//             res.send(err);
+//           }
+//         })
+//         .catch(err => {
+//           res.send(err);
+//         });
+//     })
+//     .catch(err => {
+//       res.send(err);
+//     });
+// })
+
+// router.post("/mostRequest", (req, res) => {
+//   let lastDay = req.body.lastDay;
+//   let firstDay = req.body.firstDay;
+//   console.log("enter here...")
+//   Request.aggregate([
+//     { $sortByCount: "$category" }
+//   ])
+//     .then(resp => {
+//       var categoryi = resp[0]._id;
+//       res.send(resp)
+//       Request.find({ category: categoryi })
+//         .then(resp => {
+//           var tempArray = [];
+//           resp.forEach(category => {
+//             tempArray.push(category);
+//           });
+//           try {
+//             var date = new Date();
+//             var datei = date.getMonth() + " " + date.getFullYear();
+//             var most = new Most({
+//               category: categoryi,
+//               cutOff: datei,
+//               itemIds: tempArray
+//             });
+//             most
+//               .save()
+//               .then(savemost => {
+//                 Tempmost.remove({}).then(rev =>{
+//                   console.log("removed!!")
+//                 })
+//                 res.send({ dbres: savemost });
+//               })
+//               .catch(err => {
+//                 res.send(err);
+//               });
+//           } catch (err) {
+//             res.send(err);
+//           }
+//         })
+//         .catch(err => {
+//           res.send(err);
+//         });
+//     })
+//     .catch(err => {
+//       res.send(err);
+//     });
+// });
 
 const helper = require('../controller/mostFrequent')
 router.get("/mostRequest", (req, res) => {
@@ -207,7 +227,7 @@ router.get("/mostRequest", (req, res) => {
     if (err) {
       res.send(err);
     } else {
-      res.send({dbres: docs})
+      res.send({ dbres: docs })
     }
   });
 });

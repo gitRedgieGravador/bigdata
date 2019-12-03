@@ -1,14 +1,14 @@
 <template>
   <div>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <v-card color="info" dark outlined>
-      <hr>
+      <hr />
       <center>
         <h1>Mostly Requested Per Month</h1>
       </center>
-      <hr>
+      <hr />
     </v-card>
     <v-expansion-panels focusable active>
       <v-expansion-panel v-for="(item,i) in mostly" :key="i">
@@ -26,7 +26,7 @@
           </v-row>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <br>
+          <br />
           <v-expansion-panels focusable active>
             <v-expansion-panel v-for="(request,i) in item.itemIds" :key="i">
               <v-expansion-panel-header>
@@ -78,9 +78,9 @@ export default {
   },
 
   mounted() {
-    //this.addMost();
-    // this.isCutOff();
-    console.log("this component")
+    this.getMost();
+    this.isCutOff();
+    console.log("this component 1");
   },
 
   methods: {
@@ -88,15 +88,14 @@ export default {
       var date = new Date();
       var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);
       var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      // if (firstDay == date) {
-      //   console.log("todaY");
-      // } else {
-      //   console.log("not today");
-      // }
-      let dates = {firstDay: firstDayi, lastDay: lastDayi}
-      axios.post("http://localhost:3232/cutoff").then(resp=>{
-        console.log("cutoff: ", resp)
-      })
+      //if (lastDayi.toDateString() == date.toDateString()) {
+        let dates = { firstDay: firstDayi.toLocaleString().split(",")[0], lastDay: lastDayi.toLocaleString().split(",")[0] };
+        axios.post("http://localhost:3232/cutoff").then(resp => {
+          console.log("cutoff: ", resp);
+        });
+      //} else {
+      //  console.log("not today");
+      //}
     },
     redirect(fullpath) {
       this.$router.push({ path: fullpath });
@@ -106,7 +105,7 @@ export default {
         .post("http://localhost:3232/mostRequest")
         .then(resp => {
           console.log(resp);
-          //this.mostly = resp.data.dbres;
+          this.mostly = resp.data.dbres;
         })
         .catch(err => {
           console.log("err", err);
@@ -116,7 +115,7 @@ export default {
       axios
         .get("http://localhost:3232/mostRequest")
         .then(resp => {
-          console.log("match:", resp)
+          console.log("match:", resp);
           console.log(resp.data.dbres);
           this.mostly = resp.data.dbres;
         })

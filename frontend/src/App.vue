@@ -27,7 +27,7 @@
     </v-app-bar>
     <v-content>
 
-      <!-- <div v-show="isLoggedIn && !isStudent">
+      <div v-if="isLoggedIn && !isStudent">
         <div v-if="resized && !isStudent">
           <v-navigation-drawer v-model="drawer" absolute left temporary>
             <Resizedbar/>
@@ -54,18 +54,16 @@
         </div>
       </div>
 
-
-      <div v-show="!isLoggedIn">
+      <div v-if="!isLoggedIn">
           <center>
             <router-view/>
           </center>
       </div>
-
-      <div v-show="isStudent && isLoggedIn">
+      <div v-if="isStudent && isLoggedIn">
         <router-view/>
-      </div> -->
+      </div>
 
- <router-view/>
+ <!-- <router-view/> -->
     </v-content>
   </v-app>
 </template>

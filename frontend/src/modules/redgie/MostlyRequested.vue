@@ -56,7 +56,7 @@
 //import Sidebar from "../components/Sidebar";
 import axios from "axios";
 export default {
-  name: "mostlyrequested",
+  name: "Mostly",
   data() {
     return {
       mostly: [],
@@ -78,20 +78,25 @@ export default {
   },
 
   mounted() {
-    this.addMost();
-    //this.isCutOff();
+    //this.addMost();
+    // this.isCutOff();
+    console.log("this component")
   },
 
   methods: {
     isCutOff() {
       var date = new Date();
-      var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      if (firstDay == date) {
-        console.log("todaY");
-      } else {
-        console.log("not today");
-      }
+      var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);
+      var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      // if (firstDay == date) {
+      //   console.log("todaY");
+      // } else {
+      //   console.log("not today");
+      // }
+      let dates = {firstDay: firstDayi, lastDay: lastDayi}
+      axios.post("http://localhost:3232/cutoff").then(resp=>{
+        console.log("cutoff: ", resp)
+      })
     },
     redirect(fullpath) {
       this.$router.push({ path: fullpath });

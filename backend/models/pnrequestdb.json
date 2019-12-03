@@ -5,11 +5,11 @@
   "lastname": "Gravador",
   "email": "redgie@gmail.com",
   "what": "Pen",
-  "when": new "Date(12/3/2019)\\",
+  "when": "12/3/2019",
   "why": "No ballpen to use",
   "status": "approved",
-  "statusDate": new Date(12/3/2019),
-  "dateOfSubmit": new Date(12/2/2019)
+  "statusDate": "12/3/2019",
+  "dateOfSubmit": "12/2/2019"
 }
 {
   "batch": 2021,

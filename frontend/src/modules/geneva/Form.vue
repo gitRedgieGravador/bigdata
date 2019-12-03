@@ -199,6 +199,7 @@ export default {
     };
   },
   mounted() {
+    console.log("student form")
     // requrst
     axios
       .get("http://localhost:3232/getAllRequest")

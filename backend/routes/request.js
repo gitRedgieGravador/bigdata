@@ -29,7 +29,7 @@ router.get("/getAllRequest", (req, res) => {
       }
     },
     (err, data) => {
-      console.log(data);
+      //console.log(data);
 
       if (err) return res.send(err);
       return res.send({ message: "Successfully Retrieved!!", data });
@@ -87,20 +87,80 @@ router.post("/numUnread", (req, res) => {
 
 //number of request per category
 const Most = require("../models/most");
+const Tempmost = require('../models/tempmost')
+const mongoose = require('mongoose')
+router.post('/cutoff', (req,res)=>{
+  console.log("cutoff-----")
+  let lastDay = req.body.lastDay;
+  let firstDay = req.body.firstDay;
+  Request.find({when: {$gte: "11/1/2019", $lt: "11/30/2019"}}).then(docs=>{
+    docs.forEach(each =>{
+      //console.log("each ===", each)
+      newddata = {
+        batch: each.batch,
+        category: each.category,
+        firstname: each.firstname,
+        lastname: each.lastname,
+        email: each.email,
+        what: each.what,
+        when: each.when,
+        why: each.why,
+        status: each.status,
+        statusDate: each.statusDate,
+        dateOfSubmit: each.dateOfSubmit
+      }
+      let temp = new Tempmost(newddata)
+      temp.save()
+    })
+    // Tempmost.find({}).then(resp=>{
+    //   res.send({dbres: resp})
+    // })
+    Tempmost.aggregate([
+      { $sortByCount: "$category" },
+      {$limit: 1}
+    ])
+      .then(resp => {
+        console.log("catid: ==",resp )
+        Tempmost.find({ category: categoryi })
+          .then(resp => {
+            var tempArray = [];
+            resp.forEach(category => {
+              tempArray.push(category);
+            });
+            try {
+              var date = new Date();
+              var datei = date.getMonth() + " " + date.getFullYear();
+              var most = new Most({
+                category: categoryi,
+                cutOff: datei,
+                itemIds: tempArray
+              });
+              most
+                .save()
+                .then(savemost => {
+                  res.send({ dbres: savemost });
+                })
+                .catch(err => {
+                  res.send(err);
+                });
+            } catch (err) {
+              res.send(err);
+            }
+          })
+          .catch(err => {
+            res.send(err);
+          });
+      })
+      .catch(err => {
+        res.send(err);
+      });
+  })
+})
 router.post("/mostRequest", (req, res) => {
   let lastDay = req.body.lastDay;
   let firstDay = req.body.firstDay;
   console.log("enter here...")
   Request.aggregate([
-    {
-        $match: {
-            statusDate: {//$regex: new RegExp('2019-10-', '')
-                "$gt": new Date('12/1/2019'),
-                "$lt": new Date('12/28/2019')
-            }
-        }
-    },
-
     { $sortByCount: "$category" }
   ])
     .then(resp => {

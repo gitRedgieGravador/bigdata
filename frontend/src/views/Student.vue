@@ -43,6 +43,9 @@ export default {
       dropdown_batch: ["Batch 2020", "Batch 2021", "Batch 2022"],
       dropdown_category: ["School Supply", "Personal Request", "Maintenance"]
     };
+  },
+  mounted(){
+    console.log("Student")
   }
 };
 </script>

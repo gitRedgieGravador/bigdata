@@ -13,12 +13,12 @@
     <v-expansion-panels focusable active>
       <v-expansion-panel v-for="(item,i) in mostly" :key="i">
         <v-expansion-panel-header>
-          <v-row class="text-center">
+          <v-row class="text-left">
             <v-col>
-              <h4>Cut-Off: {{monthNames[parseInt(item.cutOff.split(" ")[0])]}} {{item.cutOff.split(" ")[1]}}</h4>
+              <h4>Cut-Off: {{monthNames[new Date(item.cutOff).getMonth()]}} {{item.cutOff.split(" ")[1]}}</h4>
             </v-col>
             <v-col>
-              <h4>Category: {{item.category}}</h4>
+              <h4>Category:{{item.category}}</h4>
             </v-col>
             <v-col>
               <h4>Number of requests: {{item.itemIds.length}}</h4>
@@ -39,10 +39,10 @@
                   </v-col>
                 </v-row>
               </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <p>{{request.batch}}</p>
-                <p>{{request.firstname}} {{request.lastname}}</p>
-                <p>{{request.why}}</p>
+              <v-expansion-panel-content class="text-left pl-12 pt-2">
+                <p>Batch: {{request.batch}}</p>
+                <p>Requested by: {{request.firstname}} {{request.lastname}}</p>
+                <p>Reason: {{request.why}}</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -80,7 +80,12 @@ export default {
   mounted() {
     this.getMost();
     this.isCutOff();
-    console.log("this component 1");
+    console.log("repeated 1");
+    axios.get("http://localhost:3232/stamp").then(resp=>{
+      console.log("stamp:", resp)
+    }).catch(err=>{
+      console.log("stamp err:", err);
+    })
   },
 
   methods: {
@@ -88,35 +93,20 @@ export default {
       var date = new Date();
       var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);
       var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      //if (lastDayi.toDateString() == date.toDateString()) {
+      if (lastDayi.toDateString() == date.toDateString()) {
         let dates = { firstDay: firstDayi.toLocaleString().split(",")[0], lastDay: lastDayi.toLocaleString().split(",")[0] };
         axios.post("http://localhost:3232/cutoff").then(resp => {
           console.log("cutoff: ", resp);
         });
-      //} else {
-      //  console.log("not today");
-      //}
+      }
     },
     redirect(fullpath) {
       this.$router.push({ path: fullpath });
-    },
-    addMost() {
-      axios
-        .post("http://localhost:3232/mostRequest")
-        .then(resp => {
-          console.log(resp);
-          this.mostly = resp.data.dbres;
-        })
-        .catch(err => {
-          console.log("err", err);
-        });
     },
     getMost() {
       axios
         .get("http://localhost:3232/mostRequest")
         .then(resp => {
-          console.log("match:", resp);
-          console.log(resp.data.dbres);
           this.mostly = resp.data.dbres;
         })
         .catch(err => {

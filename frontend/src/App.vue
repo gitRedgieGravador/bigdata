@@ -26,27 +26,26 @@
       </span>
     </v-app-bar>
     <v-content>
-
       <div v-if="isLoggedIn && !isStudent">
         <div v-if="resized && !isStudent">
           <v-navigation-drawer v-model="drawer" absolute left temporary>
-            <Resizedbar/>
+            <Resizedbar />
           </v-navigation-drawer>
           <center>
             <div class="wt95">
-              <router-view/>
+              <router-view />
             </div>
           </center>
         </div>
         <div v-else>
           <v-row>
             <v-col cols="3">
-              <Sidebar/>
+              <Sidebar />
             </v-col>
             <v-col class="text-center">
               <div class="wt95">
                 <center>
-                  <router-view/>
+                  <router-view />
                 </center>
               </div>
             </v-col>
@@ -55,15 +54,15 @@
       </div>
 
       <div v-if="!isLoggedIn">
-          <center>
-            <router-view/>
-          </center>
+        <center>
+          <router-view />
+        </center>
       </div>
       <div v-if="isStudent && isLoggedIn">
-        <router-view/>
+        <router-view />
       </div>
 
- <!-- <router-view/> -->
+      <!-- <router-view/> -->
     </v-content>
   </v-app>
 </template>
@@ -85,6 +84,18 @@ export default {
   created() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
+    this.routeWatcher = this.$watch(
+    function () {  return this.$route },
+    function(route) {
+      if (route.name === 'login') {
+        this.isLoggedIn = false;
+        this.isStudent = false;
+        this.logout();
+      }
+      if (route.name != "student") {
+        this.isStudent = false;
+      }
+    })
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -102,11 +113,13 @@ export default {
   },
   watch: {
     path() {
-      if (this.$router.currentRoute.path == "/") {
+      if (this.$route.name == "login") {
+        alert("dsflkds")
         this.isLoggedIn = false;
         this.isStudent = false;
         this.logout();
-      } else if (this.$router.currentRoute.path != "/student") {
+      }
+      if (this.$route.name != "student") {
         this.isStudent = false;
       }
     }

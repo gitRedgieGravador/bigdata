@@ -103,7 +103,7 @@ export default {
   //   this.ihieght = window.innerHeight - window.innerHeight / 10;
   // },
   mounted() {
-    //this.$router.push('/mostlyrequested')
+    this.$router.push('/mostlyrequested')
     ///this.getMost()
     this.ihieght = window.innerHeight - window.innerHeight / 10;
     window.addEventListener("resize", this.handleResize);

@@ -38,6 +38,22 @@
         </v-card>
       </div>
     </center>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <v-card class="text-center">
+          <hr>
+          <v-card-title>Login Reminder</v-card-title>
+          <hr><br>
+          <v-card-text>
+            <h2 class="myred">{{sms}}</h2>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn block outlined color="green darken-1" text @click="dialog = false">Got It</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 <script>
@@ -49,28 +65,39 @@ export default {
     return {
       username: "",
       password: "",
-      showpass: false
+      showpass: false,
+      dialog: false,
+      sms: ""
     };
   },
   methods: {
     login() {
-      let register = { username: "educator", password: "educator", isEducator: true, batch: "na" }
-      let body = { username: this.username, password: this.password};
+      let register = {
+        username: "educator",
+        password: "educator",
+        isEducator: true,
+        batch: "na"
+      };
+      let body = { username: this.username, password: this.password };
       this.$store
         .dispatch("login", body)
-        .then((resp) => {
-          console.log("login", resp.data)
-          if (resp.data.status){
-            if(resp.data.user.isEducator){
-              this.$router.push({path:"/educator"})
-            }else{
-              this.$router.push({path:"/student/"+resp.data.user.batch})
+        .then(resp => {
+          if (resp.data.status) {
+            if (resp.data.user.isEducator) {
+              this.$router.push({ path: "/educator" });
+            } else {
+              this.$router.push({ path: "/student/" + resp.data.user.batch });
             }
-          }else{
-            alert(resp.data.sms)
+          } else {
+            this.sms = resp.data.sms;
+            this.dialog = true;
+            //alert(resp.data.sms)
           }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.sms = resp.data.sms;
+          this.dialog = true;
+        });
     }
   }
 };
@@ -120,5 +147,8 @@ export default {
 .pad-top {
   position: relative;
   padding-top: 5%;
+}
+.myred{
+  color: red;
 }
 </style>

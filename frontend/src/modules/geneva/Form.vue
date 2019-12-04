@@ -31,7 +31,7 @@
                     :rules="[v => !!v || 'Batch is required']"
                     label="Batch"
                     required
-                  ></v-select> -->
+                  ></v-select>-->
                   <v-text-field
                     v-model="name"
                     prepend-icon="mdi-account"
@@ -121,14 +121,16 @@
         </v-card>
       </v-dialog>
 
-      <v-card class="mx-auto" max-width="800">
+      <v-card class="mx-auto" max-width="800" color="info" dark>
+        <hr>
         <v-row>
           <v-col class="text-center">
             <h1>Requests</h1>
           </v-col>
           <v-col>
             <v-btn
-              color="blue darken-1"
+            text
+              
               center
               right
               absolute
@@ -146,8 +148,30 @@
       <v-card class="mx-auto" max-width="800">
         <v-expansion-panels focusable>
           <v-expansion-panel v-for="(item,i) in list" :key="i">
-            <v-expansion-panel-header>{{item.what}}</v-expansion-panel-header>
-            <v-expansion-panel-content>{{item.why}}</v-expansion-panel-content>
+            <v-expansion-panel-header><h4>Title: {{item.what}}</h4> </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              Reason: {{item.why}}
+              <br>
+              <br>Status:
+              <!-- <div class="red lighten-1 text-center">
+                <span class="white--text">{{item.status}}</span>
+              </div>-->
+              <div v-if="item.status == 'unread'">
+                <v-card outlined color="green" class="text-center">
+                  <span class="white--text">{{item.status}}</span>
+                </v-card>
+              </div>
+              <div v-if="item.status == 'pending'">
+                <v-card outlined color="orange" class="text-center">
+                  <span class="white--text">{{item.status}}</span>
+                </v-card>
+              </div>
+              <div v-if="item.status == 'reject'">
+                <v-card outlined color="error" class="text-center">
+                  <span class="white--text">{{item.status}}</span>
+                </v-card>
+              </div>
+            </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
       </v-card>
@@ -198,17 +222,17 @@ export default {
     };
   },
   mounted() {
-    console.log("student form")
-    this.batch = this.$route.params.batchnum
-    console.log("params:", this.batch)
+    console.log("student form");
+    this.batch = this.$route.params.batchnum;
+    console.log("params:", this.batch);
     axios
       .get("http://localhost:3232/getAllRequest")
       .then(res => {
         //this.list = res.data.data;
         res.data.data.forEach(element => {
-          //console.log(element.batch)
-          if(element.batch == this.batch){
-            this.list.push(element)
+          if (element.batch == this.batch) {
+            console.log(element)
+            this.list.push(element);
           }
         });
       })
@@ -233,8 +257,14 @@ export default {
       axios
         .post(url, body)
         .then(resp => {
-          console.log(resp);
-          this.dialog = false
+          this.dialog = false;
+          this.selectCategory = "",
+          this.name = "",
+          this.lastname = "",
+          this.email = "",
+          this.title = "",
+          this.date = "",
+          this.description = ""
         })
         .catch(err => {
           console.log(err);

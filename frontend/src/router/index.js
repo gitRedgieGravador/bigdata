@@ -2,7 +2,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 //import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import Protected from "@/modules/protected.vue";
 import store from '@/store/index'
 import Notfound from '../modules/Notfound.vue'
 import Sockets from '../modules/sample.vue'
@@ -10,7 +9,11 @@ import Educator from '../views/Educator.vue'
 import Student from '../modules/geneva/Form.vue'
 import Requests from '../modules/tibs/RequestContainer.vue'
 import Mostly from '../modules/redgie/MostlyRequested.vue'
-
+import Stamp from '../modules/redgie/Stamp.vue'
+import unreadRequest from "@/views/UnreadRequests.vue";
+import pendingRequest from "@/views/PendingRequests.vue";
+import approvedRequest from "@/views/ApprovedRequests.vue";
+import rejectedRequest from "@/views/RejectedRequests.vue";
 Vue.use(VueRouter);
 /* eslint-disable */
 const routes = [
@@ -18,13 +21,6 @@ const routes = [
         path: "/",
         name: "login",
         component: Login
-    },
-    {
-        path: "/protected",
-        component: Protected,
-        meta: {
-            requiresAuth: true
-        }
     },
     {
         path: "/educator",
@@ -49,8 +45,47 @@ const routes = [
         }
     },
     {
+        path: "/stamp",
+        component: Stamp,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
         path: "/requests",
         component: Requests,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/unread-request",
+        name:"unread",
+        component: unreadRequest,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/pending-request",
+        name:"pending",
+        component: pendingRequest,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/approved-request",
+        name:"approved",
+        component: approvedRequest,
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/rejected-request",
+        name:"rejected",
+        component: rejectedRequest,
         meta: {
             requiresAuth: true
         }

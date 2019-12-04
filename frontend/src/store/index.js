@@ -49,12 +49,9 @@ export default new Vuex.Store({
                         const token = resp.data.token;
                         const user = resp.data.user;
                         localStorage.setItem("token", token);
-                        // Add the following line:
                         let permission = 0;
                         let isStudent = true;
-                        // console.log("been here")
                         if (user.isEducator) {
-                            console.log("been here is educator")
                             permission = 1
                             isStudent = false
                         }

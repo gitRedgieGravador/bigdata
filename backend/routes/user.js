@@ -71,14 +71,14 @@ router.post("/login", function (req, res) {
           auth: false,
           sms: "Incorrect Password!!",
           token: null,
-          user: null
+          user: {isEducator: false},
         });
       }
     }
-
     return res.send({
       status: false,
       auth: false,
+      user: {isEducator: false},
       sms: "Username Not Found!!"
     });
   });
@@ -86,14 +86,6 @@ router.post("/login", function (req, res) {
 router.post("/socket", (req, res) => {
 });
 
-//var helper =  require('../controller/mostFrequent')
-router.post('/fakelogin', function (req, res) {
-  helper.findMost().then(resp=>{
-    res.send(resp)
-  }).catch(err=>{
-    res.send(err)
-  })
-})
 
 
 

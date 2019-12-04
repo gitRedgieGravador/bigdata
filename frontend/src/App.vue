@@ -87,7 +87,7 @@ export default {
     this.routeWatcher = this.$watch(
     function () {  return this.$route },
     function(route) {
-      if (route.name === 'login') {
+      if (route.name == 'login') {
         this.isLoggedIn = false;
         this.isStudent = false;
         this.logout();

@@ -1,14 +1,14 @@
 <template>
   <div>
-    <br />
-    <br />
-    <br />
+    <br>
+    <br>
+    <br>
     <v-card color="info" dark outlined>
-      <hr />
+      <hr>
       <center>
         <h1>Mostly Requested Per Month</h1>
       </center>
-      <hr />
+      <hr>
     </v-card>
     <v-expansion-panels focusable active>
       <v-expansion-panel v-for="(item,i) in mostly" :key="i">
@@ -26,8 +26,16 @@
           </v-row>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <br />
-          <v-expansion-panels focusable active>
+          <br>
+          <v-expansion-panels inset focusable>
+            <RequestCard
+              v-for="(request, index) in item.itemIds"
+              :request="request"
+              :key="index"
+              @remove="removeItem(request)"
+            />
+          </v-expansion-panels>
+          <!-- <v-expansion-panels focusable active>
             <v-expansion-panel v-for="(request,i) in item.itemIds" :key="i">
               <v-expansion-panel-header>
                 <v-row class="text-center">
@@ -45,7 +53,7 @@
                 <p>Reason: {{request.why}}</p>
               </v-expansion-panel-content>
             </v-expansion-panel>
-          </v-expansion-panels>
+          </v-expansion-panels>-->
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -55,8 +63,12 @@
 /* eslint-disable */
 //import Sidebar from "../components/Sidebar";
 import axios from "axios";
+import RequestCard from "../tibs/RequestContainer.vue";
 export default {
   name: "Mostly",
+  components: {
+    RequestCard
+  },
   data() {
     return {
       mostly: [],
@@ -81,11 +93,11 @@ export default {
     this.getMost();
     this.isCutOff();
     console.log("repeated 1");
-    axios.get("http://localhost:3232/stamp").then(resp=>{
-      console.log("stamp:", resp)
-    }).catch(err=>{
-      console.log("stamp err:", err);
-    })
+    // axios.get("http://localhost:3232/stamp").then(resp=>{
+    //   console.log("stamp:", resp)
+    // }).catch(err=>{
+    //   console.log("stamp err:", err);
+    // })
   },
 
   methods: {
@@ -94,8 +106,11 @@ export default {
       var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);
       var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);
       if (lastDayi.toDateString() == date.toDateString()) {
-        let dates = { firstDay: firstDayi.toLocaleString().split(",")[0], lastDay: lastDayi.toLocaleString().split(",")[0] };
-        axios.post("http://localhost:3232/cutoff").then(resp => {
+        let dates = {
+          firstDay: firstDayi.toLocaleString().split(",")[0],
+          lastDay: lastDayi.toLocaleString().split(",")[0]
+        };
+        axios.post("http://localhost:3232/cutoff", dates).then(resp => {
           console.log("cutoff: ", resp);
         });
       }
@@ -107,7 +122,7 @@ export default {
       axios
         .get("http://localhost:3232/mostRequest")
         .then(resp => {
-          this.mostly = resp.data.dbres;
+          this.mostly = resp.data.dbres.reverse();
         })
         .catch(err => {
           console.log("err", err);

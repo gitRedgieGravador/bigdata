@@ -3,83 +3,11 @@
     <center>
       <v-card :height="ihieght" outlined>
         <div class="mypri">
-          <h1>Dashboard</h1>
+          <h1>A gateway for life</h1>
         </div>
         <hr />
         <div v-if="resized" class="ml"></div>
-        <div class="v-align">
-          <v-row>
-            <v-col>
-              <v-card outlined>
-                <div class="mypri">
-                  <h3>Request</h3>
-                </div>
-                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </v-card>
-            </v-col>
-            <v-col>
-              <v-card outlined>
-                <div class="mypri">
-                  <h3>Pending</h3>
-                </div>
-                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </v-card>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-card outlined>
-                <div class="mypri">
-                  <h3>Approved Request</h3>
-                </div>
-                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </v-card>
-            </v-col>
-            <v-col>
-              <v-card outlined>
-                <div class="mypri">
-                  <h3>Request</h3>
-                </div>
-                <hr />fbasdjfbasdkfbasdkfbksdafbkasdf
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-                <br />
-              </v-card>
-            </v-col>
-          </v-row>
+        <div class="v-align" id="cover">
         </div>
       </v-card>
     </center>
@@ -103,7 +31,7 @@ export default {
   //   this.ihieght = window.innerHeight - window.innerHeight / 10;
   // },
   mounted() {
-    this.$router.push('/mostlyrequested')
+    //this.$router.push('/stamp')
     ///this.getMost()
     this.ihieght = window.innerHeight - window.innerHeight / 10;
     window.addEventListener("resize", this.handleResize);
@@ -173,5 +101,13 @@ export default {
 }
 .ml {
   margin-top: 65%;
+}
+#cover {
+  position: relative;
+  top:45%;
+  background-image: url('../assets/kani.png');
+  background-size:cover;
+  height: 90%;
+  background-repeat: no-repeat;
 }
 </style>

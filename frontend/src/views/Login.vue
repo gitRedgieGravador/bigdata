@@ -54,16 +54,17 @@ export default {
   },
   methods: {
     login() {
-      let register = { username: "educator", password: "educator", isEducator: false }
+      let register = { username: "educator", password: "educator", isEducator: true, batch: "na" }
       let body = { username: this.username, password: this.password};
       this.$store
         .dispatch("login", body)
         .then((resp) => {
+          console.log("login", resp.data)
           if (resp.data.status){
             if(resp.data.user.isEducator){
               this.$router.push({path:"/educator"})
             }else{
-              this.$router.push({path:"/student"})
+              this.$router.push({path:"/student/"+resp.data.user.batch})
             }
           }else{
             alert(resp.data.sms)

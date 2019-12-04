@@ -34,8 +34,9 @@ const routes = [
         }
     },
     {
-        path: "/student",
+        path: "/student/:batchnum",
         component: Student,
+        props: true,
         meta: {
             requiresAuth: true
         }

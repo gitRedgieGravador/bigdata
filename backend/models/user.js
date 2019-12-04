@@ -13,7 +13,8 @@ const UserSchema = new Schema({
     isEducator: {
         type: Boolean,
         required: true
-    }
+    },
+    batch: {type: String, required: true}
 });
 
 var User = mongoose.model('User', UserSchema);

@@ -25,13 +25,13 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  <v-select
+                  <!-- <v-select
                     v-model="selectBatch"
                     :items="batch"
                     :rules="[v => !!v || 'Batch is required']"
                     label="Batch"
                     required
-                  ></v-select>
+                  ></v-select> -->
                   <v-text-field
                     v-model="name"
                     prepend-icon="mdi-account"
@@ -184,8 +184,7 @@ export default {
         v => !!v || "E-mail is required",
         v => /.+@.+\..+/.test(v) || "E-mail must be valid"
       ],
-      selectBatch: null,
-      batch: ["2020", "2021", "2022"],
+      batch: null,
       selectCategory: null,
       date: null,
       currentDate: new Date().toISOString().substr(0, 10),
@@ -200,18 +199,25 @@ export default {
   },
   mounted() {
     console.log("student form")
-    // requrst
+    this.batch = this.$route.params.batchnum
+    console.log("params:", this.batch)
     axios
       .get("http://localhost:3232/getAllRequest")
       .then(res => {
-        this.list = res.data.data;
+        //this.list = res.data.data;
+        res.data.data.forEach(element => {
+          //console.log(element.batch)
+          if(element.batch == this.batch){
+            this.list.push(element)
+          }
+        });
       })
       .catch(err => console.log(err));
   },
   methods: {
     sendRequest() {
       let body = {
-        batch: this.selectBatch,
+        batch: this.batch,
         category: this.selectCategory,
         firstname: this.name,
         lastname: this.lastname,

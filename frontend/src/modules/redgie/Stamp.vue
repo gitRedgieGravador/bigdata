@@ -14,7 +14,8 @@
       <v-expansion-panels focusable>
         <v-expansion-panel>
           <v-expansion-panel-header>
-            <h4>{{stamp[1][0].duration}} days of Approval</h4>
+            <h4 v-if="stamp[1][0].duration == 0">Approved in less than a day</h4>
+            <h4 v-else>{{stamp[1][0].duration}} days of Approval</h4>
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <br>

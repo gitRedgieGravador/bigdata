@@ -14,6 +14,7 @@ import unreadRequest from "@/views/UnreadRequests.vue";
 import pendingRequest from "@/views/PendingRequests.vue";
 import approvedRequest from "@/views/ApprovedRequests.vue";
 import rejectedRequest from "@/views/RejectedRequests.vue";
+import Editpassword from '../modules/Kiray/Editpassword.vue'
 Vue.use(VueRouter);
 /* eslint-disable */
 const routes = [
@@ -154,6 +155,11 @@ const routes = [
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: "/editpassword",
+        name: "editpassword",
+        component: Editpassword
     },
     {
         path: '/socket',

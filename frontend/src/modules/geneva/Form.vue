@@ -2,10 +2,10 @@
   <div id="inspire">
     <div>
       <v-spacer>
-        <br>
-        <br>
+        <br />
+        <br />
       </v-spacer>
-      <v-dialog v-model="dialog" max-width="500px">
+      <v-dialog v-model="dialog" max-width="700px">
         <template v-slot:activator="{ on }">
           <!-- <v-btn color="blue darken-1" center right absolute dark class="mb-2" v-on="on">
             <v-icon>mdi-plus</v-icon>New Request
@@ -13,18 +13,20 @@
         </template>
         <v-card>
           <v-card-title class="black--text">
-            <v-list-item-avatar tile right size="62"></v-list-item-avatar>
-            <span class="headline">New Request</span>
+             <v-avatar class="mr-3">
+                <img src="@/assets/pnlogo.png" id="logo">
+              </v-avatar>
+            <span class="text-center">New Request</span>
           </v-card-title>
           <v-divider color="light-blue lighten-2"></v-divider>
           <v-card-text>
             <v-container>
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Fill in the following information</v-toolbar-title>
-                <v-spacer/>
+                <v-spacer />
               </v-toolbar>
               <v-card-text>
-                <v-form>
+                <v-form ref="form" v-model="valid" lazy validation>
                   <!-- <v-select
                     v-model="selectBatch"
                     :items="batch"
@@ -56,8 +58,8 @@
                     label="E-mail"
                     required
                   ></v-text-field>
-                  <br>
-                  <br>
+                  <br />
+                  <br />
                   <v-select
                     v-model="selectCategory"
                     :items="category"
@@ -65,7 +67,7 @@
                     label="Request Category"
                     required
                   ></v-select>
-                  <br>
+                  <br />
                   <v-text-field
                     v-model="title"
                     :rules="[v => !!v || 'Title is required']"
@@ -95,7 +97,7 @@
                       <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
                     </v-date-picker>
                   </v-dialog>
-                  <br>
+                  <br />
                   <v-textarea
                     outlined
                     v-model="description"
@@ -107,9 +109,9 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-spacer/>
-                <v-btn color="blue darken-1" @click="dialog = false">Cancel</v-btn>
-                <v-btn color="orange" @click="sendRequest">Submit</v-btn>
+                <v-spacer />
+                <v-btn color="blue darken-1" @click="reset">Cancel</v-btn>
+                <v-btn color="orange" :disabled="!valid" @click="sendRequest">Submit</v-btn>
               </v-card-actions>
             </v-container>
           </v-card-text>
@@ -122,37 +124,37 @@
       </v-dialog>
 
       <v-card class="mx-auto" max-width="800" color="info" dark>
-        <hr>
+        <hr />
         <v-row>
           <v-col class="text-center">
             <h1>Requests</h1>
           </v-col>
           <v-col>
-            <v-btn
-            text
-              
-              center
-              right
-              absolute
-              dark
-              class="mb-2"
-              @click="dialog = true"
-            >
+            <v-btn text center right absolute dark class="mb-2" @click="dialog = true">
               <v-icon>mdi-plus</v-icon>New Request
             </v-btn>
           </v-col>
         </v-row>
-        <hr>
+        <hr />
       </v-card>
 
       <v-card class="mx-auto" max-width="800">
         <v-expansion-panels focusable>
           <v-expansion-panel v-for="(item,i) in list" :key="i">
-            <v-expansion-panel-header><h4>Title: {{item.what}}</h4> </v-expansion-panel-header>
+            <v-expansion-panel-header>
+              <v-row>
+                <v-col>
+                  <h4>Title: {{item.what}}</h4>
+                </v-col>
+                <v-col>
+                  <h4>Needed: {{item.when}}</h4>
+                </v-col>
+              </v-row>
+            </v-expansion-panel-header>
             <v-expansion-panel-content>
               Reason: {{item.why}}
-              <br>
-              <br>Status:
+              <br />
+              <br />Status:
               <!-- <div class="red lighten-1 text-center">
                 <span class="white--text">{{item.status}}</span>
               </div>-->
@@ -166,7 +168,7 @@
                   <span class="white--text">{{item.status}}</span>
                 </v-card>
               </div>
-              <div v-if="item.status == 'reject'">
+              <div v-if="item.status == 'rejected'">
                 <v-card outlined color="error" class="text-center">
                   <span class="white--text">{{item.status}}</span>
                 </v-card>
@@ -186,6 +188,7 @@ export default {
   name: "studentform",
   data() {
     return {
+    valid: true,
       list: [],
       modal: false,
       close: false,
@@ -222,23 +225,45 @@ export default {
     };
   },
   mounted() {
-    //console.log("student form");
-    this.batch = this.$route.params.batchnum;
-    //console.log("params:", this.batch);
-    axios
-      .get("http://localhost:3232/getAllRequest")
-      .then(res => {
-        //this.list = res.data.data;
-        res.data.data.forEach(element => {
-          if (element.batch == this.batch) {
-            ///console.log(element)
-            this.list.push(element);
-          }
-        });
-      })
-      .catch(err => console.log(err));
+    this.getData();
+    console.log("student form");
+    // this.batch = this.$route.params.batchnum;
+    // console.log("params:", this.batch);
+    // axios
+    //   .get("http://localhost:3232/getAllRequest")
+    //   .then(res => {
+    //     //this.list = res.data.data;
+    //     res.data.data.forEach(element => {
+    //       if (element.batch == this.batch) {
+    //         console.log(element)
+    //         this.list.push(element);
+    //       }
+    //     });
+    //   })
+    //   .catch(err => console.log(err));
   },
   methods: {
+    reset () {
+      this.dialog = false;
+        this.$refs.form.reset();
+      },
+    getData() {
+      this.batch = this.$route.params.batchnum;
+      console.log("params:", this.batch);
+      axios
+        .get("http://localhost:3232/getAllRequest")
+        .then(res => {
+          //this.list = res.data.data;
+          console.log(res.data);
+          res.data.data.forEach(element => {
+            if (element.batch == this.batch) {
+              //console.log(element);
+              this.list.push(element);
+            }
+          });
+        })
+        .catch(err => console.log(err));
+    },
     sendRequest() {
       let body = {
         batch: this.batch,
@@ -257,18 +282,14 @@ export default {
       axios
         .post(url, body)
         .then(resp => {
+          this.list = [];
+          this.getData();
           this.dialog = false;
-          this.selectCategory = "",
-          this.name = "",
-          this.lastname = "",
-          this.email = "",
-          this.title = "",
-          this.date = "",
-          this.description = ""
         })
         .catch(err => {
           console.log(err);
         });
+        this.$refs.form.reset();
       //console.log(body);
     }
   }

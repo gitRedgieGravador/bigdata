@@ -14,12 +14,11 @@ router.post("/addRequest", (req, res) => {
   let due = req.body.when
   let item = req.body.what
   sender.sendEmail(name, due,item).then(resp => {
-    console.log(resp)
-    Request.find({ status: "unread" }).count().then(resp => {
+    Request.countDocuments({ status: "unread" }).then(resp => {
       io.emit('newrequest', resp);
     })
   }).catch(err => {
-    //console.log(err)
+    console.log(err)
   })
   user.save((err, data) => {
     if (err) return res.send(err);
@@ -27,16 +26,8 @@ router.post("/addRequest", (req, res) => {
   });
 });
 
-router.get('/unread', (req, res) => {
-  Request.find({ status: "unread" }).count().then(resp => {
-    res.send({ count: resp })
-  }).catch(err => {
-    res.send({ err: err })
-  })
-})
 
 router.get("/getAllRequest", (req, res) => {
-  // var request = new Request(req.body)
   Request.find(
     {
       status: {
@@ -44,8 +35,6 @@ router.get("/getAllRequest", (req, res) => {
       }
     },
     (err, data) => {
-      //console.log(data);
-
       if (err) return res.send(err);
       return res.send({ message: "Successfully Retrieved!!", data });
     }
@@ -92,22 +81,21 @@ router.get('/getRejected', (req, res) => {
   })
 })
 router.put('/updateRequest/:id', (req, res) => {
-  console.log(req.body.data)
   var io = req.app.get('socketio');
   Request.findByIdAndUpdate(req.params.id, {
     status: req.body.data
   }, (err, data) => {
     if (err) return res.send(err);
-    Request.find({ status: "unread" }).count().then(resp => {
+    Request.countDocuments({ status: "unread" }).then(resp => {
       io.emit('countEvent', {status: "unread", count: resp});
     })
-    Request.find({ status: "pending" }).count().then(resp => {
+    Request.countDocuments({ status: "pending" }).then(resp => {
       io.emit('countEvent', {status: "pending", count: resp});
     })
-    Request.find({ status: "rejected" }).count().then(resp => {
+    Request.countDocuments({ status: "rejected" }).then(resp => {
       io.emit('countEvent', {status: "rejected", count: resp});
     })
-    Request.find({ status: "approved" }).count().then(resp => {
+    Request.countDocuments({ status: "approved" }).then(resp => {
       io.emit('countEvent', {status: "approved", count: resp});
     })
     return res.send({
@@ -118,7 +106,6 @@ router.put('/updateRequest/:id', (req, res) => {
 })
 
 router.put('/updateWhy/:id', (req, res) => {
-  console.log(req.body.data)
   Request.findByIdAndUpdate(req.params.id, {
     why: req.body.data
   }, (err, data) => {
@@ -182,8 +169,8 @@ const Most = require("../models/most");
 const Tempmost = require('../models/tempmost')
 const mongoose = require('mongoose')
 router.post('/cutoff', (req, res) => {
-  let firstDay = "12/1/2019";
-  let lastDay = "12/30/2019";
+  let firstDay = req.body.firstDay;
+  let lastDay = req.body.lastDay;
   helper.addMost(firstDay, lastDay).then(resp => {
     Tempmost.deleteMany({}).then(rev => {
       console.log(rev)
@@ -214,10 +201,8 @@ router.get('/stamp', (req, res) => {
     let datai = resp
     var tempStamp = []
     datai.forEach(each => {
-      console.log("test")
       let starti = new Date(each.dateOfSubmit).toISOString();
       let endi = new Date(each.statusDate).toISOString();
-      console.log("test 1")
       let days = calculateDays(starti, endi)
       var kani = {
         batch: each.batch,
@@ -233,7 +218,6 @@ router.get('/stamp', (req, res) => {
         dateOfSubmit: each.dateOfSubmit,
         duration: days
       }
-      console.log("test 2 ", kani)
       tempStamp.push(kani)
     })
     res.send({ stamp: tempStamp })

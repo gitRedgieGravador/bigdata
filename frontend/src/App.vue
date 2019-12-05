@@ -61,8 +61,6 @@
       <div v-if="isStudent && isLoggedIn">
         <router-view />
       </div>
-
-      <!-- <router-view/> -->
     </v-content>
   </v-app>
 </template>

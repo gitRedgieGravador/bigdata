@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <v-navigation-drawer fixed permanent class="mt-cos"> -->
+
       <v-card>
         <center>
           <div class="pt-5">
@@ -28,13 +28,19 @@
             <v-list-item-icon>
               <v-icon>mdi-eye</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>View Request</v-list-item-title><span><div v-if="vrnum != 0" class="vr-nt">{{vrnum}}</div></span>
+            <v-list-item-title>View Request</v-list-item-title>
           </v-list-item>
           <v-list-item link class="ml-6" @click="gotoRoute('/pending-request')">
             <v-list-item-icon>
               <v-icon>mdi-account-edit</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Pending</v-list-item-title>
+          </v-list-item>
+          <v-list-item link class="ml-6" @click="gotoRoute('/editpassword')">
+            <v-list-item-icon>
+              <v-icon>mdi-account-edit</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Edit Password</v-list-item-title>
           </v-list-item>
           <v-expansion-panels  class="ma-0 pa-0">
             <v-expansion-panel>
@@ -89,9 +95,9 @@
   </div>
 </template>
 <script>
-import io from "socket.io-client";
-var socket = io.connect("http://localhost:3232");
-import axios from 'axios'
+// import io from "socket.io-client";
+// var socket = io.connect("http://localhost:3232");
+// import axios from 'axios'
 export default {
   name: "sidebar",
   data() {
@@ -101,23 +107,23 @@ export default {
     };
   },
   created() {
-    this.onNewRequest();
-    axios.get("http://localhost:3232/unread").then(resp=>{
-      this.vrnum = resp.data.count
-    })
+    // this.onNewRequest();
+    // axios.get("http://localhost:3232/unread").then(resp=>{
+    //   this.vrnum = resp.data.count
+    // })
   },
   methods: {
     gotoRoute(next) {
       this.$router.push({ path: next });
     },
-    passdata(data) {
-      this.vrnum = data;
-    },
-    onNewRequest() {
-      socket.on("newrequest", data => {
-        this.passdata(data);
-      });
-    }
+    // passdata(data) {
+    //   this.vrnum = data;
+    // },
+    // onNewRequest() {
+    //   socket.on("newrequest", data => {
+    //     this.passdata(data);
+    //   });
+    // }
   }
 };
 </script>

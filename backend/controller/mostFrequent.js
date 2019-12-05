@@ -3,9 +3,7 @@ var Most = require("../models/most");
 var Tempmost = require("../models/tempmost");
 async function addMost(firstday, lastday) {
     return new Promise(async (resolve, reject) => {
-        console.log(firstday, " vs ", lastday)
         await Request.find({ statusDate: { $gte: firstday, $lt: lastday }, status: "approved" }).then(async docs => {
-            console.log("docs==,", docs)
             Tempmost.insertMany(docs).then(async dbrs => {
                 await Tempmost.aggregate([
                     { $sortByCount: "$category" },
@@ -31,7 +29,6 @@ async function addMost(firstday, lastday) {
                                     await most
                                         .save()
                                         .then(savemost => {
-                                            console.log("Saved!!")
                                             resolve(savemost)
                                         })
                                         .catch(err => {

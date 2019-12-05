@@ -146,7 +146,8 @@ export default {
   //   this.ihieght = window.innerHeight - window.innerHeight / 10;
   // },
   mounted() {
-    this.onNewRequest();
+    this.isCutOff()
+    this.countEvent();
     this.ihieght = window.innerHeight - window.innerHeight / 10;
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
@@ -169,10 +170,14 @@ export default {
   methods: {
     isCutOff() {
       var date = new Date();
-      var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-      var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      if (firstDay == date) {
-        console.log("todaY");
+      var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);
+      var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      if (firstDayi.toDateString() == date.toDateString()) {
+        axios.post('http://localhost:3232/cutoff', {firstDay:firstDayi, lastDay: lastDayi}).then(resp=>{
+          console.log("Saved on cut off")
+        }).catch(err=>{
+          console.log("Error on saving cut off")
+        })
       } else {
         console.log("not today");
       }
@@ -218,7 +223,7 @@ export default {
         this.unread = data.count
       }
     },
-    onNewRequest() {
+    countEvent() {
       socket.on("countEvent", data => {
         this.passdata(data);
       });

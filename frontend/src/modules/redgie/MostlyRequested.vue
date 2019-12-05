@@ -35,25 +35,6 @@
               @remove="removeItem(request)"
             />
           </v-expansion-panels>
-          <!-- <v-expansion-panels focusable active>
-            <v-expansion-panel v-for="(request,i) in item.itemIds" :key="i">
-              <v-expansion-panel-header>
-                <v-row class="text-center">
-                  <v-col>
-                    <h5>Specific: {{request.what}}</h5>
-                  </v-col>
-                  <v-col>
-                    <h5>Date Approved: {{new Date(request.statusDate).toLocaleString()}}</h5>
-                  </v-col>
-                </v-row>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content class="text-left pl-12 pt-2">
-                <p>Batch: {{request.batch}}</p>
-                <p>Requested by: {{request.firstname}} {{request.lastname}}</p>
-                <p>Reason: {{request.why}}</p>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>-->
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>

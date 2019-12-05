@@ -14,7 +14,7 @@ router.post("/addRequest", (req, res) => {
   let due = req.body.when
   let item = req.body.what
   sender.sendEmail(name, due,item).then(resp => {
-    //console.log(resp)
+    console.log(resp)
     Request.find({ status: "unread" }).count().then(resp => {
       io.emit('newrequest', resp);
     })
@@ -99,7 +99,16 @@ router.put('/updateRequest/:id', (req, res) => {
   }, (err, data) => {
     if (err) return res.send(err);
     Request.find({ status: "unread" }).count().then(resp => {
-      io.emit('newrequest', resp);
+      io.emit('countEvent', {status: "unread", count: resp});
+    })
+    Request.find({ status: "pending" }).count().then(resp => {
+      io.emit('countEvent', {status: "pending", count: resp});
+    })
+    Request.find({ status: "rejected" }).count().then(resp => {
+      io.emit('countEvent', {status: "rejected", count: resp});
+    })
+    Request.find({ status: "approved" }).count().then(resp => {
+      io.emit('countEvent', {status: "approved", count: resp});
     })
     return res.send({
       message: "Successfully updated!",
@@ -145,15 +154,23 @@ router.get('/numRejected', (req, res) => {
 })
 
 //number of requests approved
-router.post("/numApproved", (req, res) => {
+router.get("/numApproved", (req, res) => {
   Request.countDocuments({ status: "approved" }, (err, data) => {
     if (err) return res.send(err);
     return res.send({ message: "Success", data });
   });
 });
 
+//number of requests approved
+router.get("/numPending", (req, res) => {
+  Request.countDocuments({ status: "pending" }, (err, data) => {
+    if (err) return res.send(err);
+    return res.send({ message: "Success", data });
+  });
+});
+
 //number of requests unread
-router.post("/numUnread", (req, res) => {
+router.get("/numUnread", (req, res) => {
   Request.countDocuments({ status: "unread" }, (err, data) => {
     if (err) return res.send(err);
     return res.send({ message: "Success", data });

@@ -107,3 +107,11 @@ export function mostRequest() {
         })
         .catch(err => Promise.reject(err.message));
 }
+
+export function numPending() {
+    return axios.get(`${BASE_URL}/numPending/`)
+        .then(response => {
+            return response.data
+        })
+        .catch(err => Promise.reject(err.message));
+}

@@ -5,7 +5,8 @@
   mongoose.connect(mongoDB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true
+      useCreateIndex: true,
+      useFindAndModify: true
   }, function(err) {
       if (err) {
           console.log("Can not connect ot mongodb!!")

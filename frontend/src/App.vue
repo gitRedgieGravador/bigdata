@@ -5,8 +5,8 @@
       <div v-show="resized">
         <v-app-bar-nav-icon v-if="isLoggedIn && !isStudent" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       </div>
-      <h1 v-show="!resized">PN Request Management System</h1>
-      <h1 v-show="resized">PNRMS</h1>
+      <h1 @click="redirect('/')" v-show="!resized">PN Request Management System</h1>
+      <h1 @click="redirect('/')" v-show="resized">PNRMS</h1>
       <v-spacer></v-spacer>
       <span v-if="isLoggedIn">
         <v-btn text @click="logout">
@@ -39,7 +39,7 @@
         </div>
         <div v-else>
           <v-row>
-            <v-col cols="3">
+            <v-col cols="3" v-if="isLoggedIn">
               <Sidebar />
             </v-col>
             <v-col class="text-center">
@@ -78,29 +78,12 @@ export default {
     return {
       drawer: false,
       resized: false
-      //isStudent: false
     };
   },
   created() {
     window.addEventListener("resize", this.handleResize);
     this.handleResize();
-    this.routeWatcher = this.$watch(
-    function () {  return this.$route },
-    function(route) {
-      if (route.name == 'login') {
-        this.isLoggedIn = false;
-        this.isStudent = false;
-        this.logout();
-      }
-      if (route.name != "student") {
-        this.isStudent = false;
-      }
-      if (route.name === "notfound"){
-        this.isLoggedIn = false;
-        this.isStudent = false;
-        this.logout();
-      }
-    })
+    this.handleRoute(this.$route.name)
   },
   destroyed() {
     window.removeEventListener("resize", this.handleResize);
@@ -116,20 +99,16 @@ export default {
       return this.$store.getters.permission;
     }
   },
-  watch: {
-    path() {
-      if (this.$route.name == "login") {
-        alert("dsflkds")
-        this.isLoggedIn = false;
-        this.isStudent = false;
+
+  methods: {
+    handleRoute(route) {
+      if (route == "login" || route == "notfound") {
         this.logout();
       }
-      if (this.$route.name != "student") {
+      if (route != "student") {
         this.isStudent = false;
       }
-    }
-  },
-  methods: {
+    },
     logout: function() {
       this.$store.dispatch("logout").then(() => {
         this.$router.push("/");

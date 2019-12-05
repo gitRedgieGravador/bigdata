@@ -25,6 +25,9 @@ export default new Vuex.Store({
         logout(state) {
             state.status = null;
             state.token = null;
+            state.isStudent = null;
+            state.permission = 0;
+            state.user = {};
         },
         auth_isStudent(state, isStudent){
             state.isStudent = isStudent

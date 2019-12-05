@@ -222,16 +222,16 @@ export default {
     };
   },
   mounted() {
-    console.log("student form");
+    //console.log("student form");
     this.batch = this.$route.params.batchnum;
-    console.log("params:", this.batch);
+    //console.log("params:", this.batch);
     axios
       .get("http://localhost:3232/getAllRequest")
       .then(res => {
         //this.list = res.data.data;
         res.data.data.forEach(element => {
           if (element.batch == this.batch) {
-            console.log(element)
+            ///console.log(element)
             this.list.push(element);
           }
         });

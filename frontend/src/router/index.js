@@ -25,6 +25,13 @@ const routes = [
     {
         path: "/educator",
         component: Educator,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
@@ -33,6 +40,13 @@ const routes = [
         path: "/student/:batchnum",
         component: Student,
         props: true,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
@@ -41,6 +55,13 @@ const routes = [
         path: "/mostlyrequested",
         name: "mostly",
         component: Mostly,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
@@ -49,6 +70,13 @@ const routes = [
         path: "/stamp",
         name: "stamp",
         component: Stamp,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
@@ -56,38 +84,73 @@ const routes = [
     {
         path: "/requests",
         component: Requests,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
     },
     {
         path: "/unread-request",
-        name:"unread",
+        name: "unread",
         component: unreadRequest,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
     },
     {
         path: "/pending-request",
-        name:"pending",
+        name: "pending",
         component: pendingRequest,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
     },
     {
         path: "/approved-request",
-        name:"approved",
+        name: "approved",
         component: approvedRequest,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
     },
     {
         path: "/rejected-request",
-        name:"rejected",
+        name: "rejected",
         component: rejectedRequest,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
         meta: {
             requiresAuth: true
         }
@@ -98,7 +161,7 @@ const routes = [
     },
     {
         path: '*',
-        name:"notfound",
+        name: "notfound",
         component: Notfound
     }
 ];
@@ -109,15 +172,15 @@ const router = new VueRouter({
     routes
 });
 
-router.beforeEach((to, from, next) => {
-    if (to.matched.some(route => route.meta.requiresAuth)) {
-        if (store.getters.isLoggedIn) {
-            next();
-        } else {
-            next({ path: "/" });
-        }
-    }
-    next();
-});
+// router.beforeEach((to, from, next) => {
+//     if (to.matched.some(route => route.meta.requiresAuth)) {
+//         if (store.getters.isLoggedIn) {
+//             next();
+//         } else {
+//             next({ path: "/" });
+//         }
+//     }
+//     next();
+// });
 
 export default router;

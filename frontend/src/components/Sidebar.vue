@@ -9,8 +9,8 @@
           <v-list>
             <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title class="title">Redgie Gravador</v-list-item-title>
-                <v-list-item-subtitle>Educator</v-list-item-subtitle>
+                <v-list-item-title class="title">Educator</v-list-item-title>
+                <v-list-item-subtitle>Gateway for life</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
           </v-list>

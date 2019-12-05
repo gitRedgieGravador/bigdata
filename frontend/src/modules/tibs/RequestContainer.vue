@@ -3,7 +3,8 @@
     <v-expansion-panel-header>
         <h3 class="text-uppercase">{{request.category}}</h3>
         <v-spacer></v-spacer>
-        <h4 v-if="$route.name!= 'approved' && $route.name!= 'rejected'">Needed on: {{request.when}}</h4>
+        <h4 v-if="display">Needed on: {{request.when}}</h4>
+        <h4 v-else>Approved on: {{request.statusDate}}</h4>
     </v-expansion-panel-header>
     <v-expansion-panel-content color="light-blue lighten-3" class="pa-2">
         <v-list-item two-line>
@@ -55,10 +56,10 @@
                 </v-card>
             </v-list-item-content>
         </v-list-item>
-        <v-footer color="white" class="mt-3" v-if="$route.name!= 'approved' && $route.name!= 'rejected'">
+        <v-footer color="white" class="mt-3" v-if="display">
             <p class="font-italic body-2">Received: {{request.dateOfSubmit}}</p>
             <v-spacer></v-spacer>
-            <v-btn small dark class="ma-2" color="blue" @click="updateStatus('pending')">Pending</v-btn>
+            <v-btn v-if="!pending" small dark class="ma-2" color="blue" @click="updateStatus('pending')">Pending</v-btn>
             <v-btn small dark class="ma-2" color="green accent-3" @click="updateStatus('approved')">Approve</v-btn>
             <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
@@ -98,8 +99,19 @@ export default {
     props: ["request"],
     data: () => ({
         dialog: false,
-        reason: ""
+        reason: "",
+        display: false,
+        pending:false
     }),
+    mounted(){
+        let myroute = this.$route.name
+        if(myroute != "approved" && myroute != "rejected" && myroute != "mostly" && myroute != "stamp"){
+            this.display = true;
+        }
+        if (myroute == "pending"){
+            this.pending = true
+        }
+    },
     methods: {
         updateStatus(status) {
             updateRequest(status, this.request._id)

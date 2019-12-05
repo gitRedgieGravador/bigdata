@@ -1,12 +1,23 @@
 <template>
-  <v-expansion-panels inset focusable>
-    <RequestCard
-      v-for="(request, index) in requests"
-      :request="request"
-      :key="index"
-      @remove="removeItem(request)"
-    />
-  </v-expansion-panels>
+  <div>
+    <br />
+    <br />
+    <v-card color="info" dark outlined>
+      <hr />
+      <center>
+        <h1>Pending Requests</h1>
+      </center>
+      <hr />
+    </v-card>
+    <v-expansion-panels inset focusable>
+      <RequestCard
+        v-for="(request, index) in requests"
+        :request="request"
+        :key="index"
+        @remove="removeItem(request)"
+      />
+    </v-expansion-panels>
+  </div>
 </template>
 <script>
 import RequestCard from "../modules/tibs/RequestContainer.vue";
@@ -26,8 +37,8 @@ export default {
   },
   methods: {
     removeItem(request) {
-        this.requests.splice(this.requests.indexOf(request), 1)
-      }
+      this.requests.splice(this.requests.indexOf(request), 1);
+    }
   },
   mounted() {
     getPending()

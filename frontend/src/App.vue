@@ -95,6 +95,11 @@ export default {
       if (route.name != "student") {
         this.isStudent = false;
       }
+      if (route.name === "notfound"){
+        this.isLoggedIn = false;
+        this.isStudent = false;
+        this.logout();
+      }
     })
   },
   destroyed() {

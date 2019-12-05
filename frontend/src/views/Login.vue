@@ -73,10 +73,10 @@ export default {
   methods: {
     login() {
       let register = {
-        username: "educator",
-        password: "educator",
-        isEducator: true,
-        batch: "na"
+        username: "b2020",
+        password: "b2020",
+        isEducator: false,
+        batch: "2020"
       };
       let body = { username: this.username, password: this.password };
       this.$store

@@ -39,6 +39,7 @@ const routes = [
     },
     {
         path: "/mostlyrequested",
+        name: "mostly",
         component: Mostly,
         meta: {
             requiresAuth: true
@@ -46,6 +47,7 @@ const routes = [
     },
     {
         path: "/stamp",
+        name: "stamp",
         component: Stamp,
         meta: {
             requiresAuth: true
@@ -96,6 +98,7 @@ const routes = [
     },
     {
         path: '*',
+        name:"notfound",
         component: Notfound
     }
 ];

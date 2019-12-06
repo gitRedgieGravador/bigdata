@@ -15,7 +15,7 @@ router.post("/addRequest", (req, res) => {
   let item = req.body.what
   sender.sendEmail(name, due,item).then(resp => {
     Request.countDocuments({ status: "unread" }).then(resp => {
-      io.emit('newrequest', resp);
+      io.emit('countEvent', {status: "unread", count: resp});
     })
   }).catch(err => {
     console.log(err)

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>
     <v-navigation-drawer fixed permanent class="mt-cos">
       <v-card>
         <center>
@@ -93,11 +94,13 @@
       </v-card>
     </v-navigation-drawer>
   </div>
+  </div>
 </template>
 <script>
 // import io from "socket.io-client";
 // var socket = io.connect("http://localhost:3232");
 // import axios from 'axios'
+/* eslint-disable */
 export default {
   name: "sidebar",
   data() {
@@ -107,6 +110,11 @@ export default {
     };
   },
   created() {
+    // let myroute = this.$route.name
+    // if(myroute === "student"){
+    //   this.isStudent = true
+    //   this.dontshow = true
+    // }
     // this.onNewRequest();
     // axios.get("http://localhost:3232/unread").then(resp=>{
     //   this.vrnum = resp.data.count

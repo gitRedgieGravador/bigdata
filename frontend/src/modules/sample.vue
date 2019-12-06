@@ -20,18 +20,18 @@ export default {
       sample: "yes"
     };
   },
-  created() {
-    this.onSample();
-  },
-  methods: {
-    passdata(data) {
-      this.sample = data;
-    },
-    onSample() {
-      socket.on("sample", data => {
-        this.passdata(data);
-      });
-    }
-  }
+  // created() {
+  //   this.onSample();
+  // },
+  // methods: {
+  //   passdata(data) {
+  //     this.sample = data;
+  //   },
+  //   onSample() {
+  //     socket.on("sample", data => {
+  //       this.passdata(data);
+  //     });
+  //   }
+  // }
 };
 </script>

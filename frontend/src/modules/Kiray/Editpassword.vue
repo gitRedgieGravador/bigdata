@@ -15,10 +15,10 @@
                     :type="showOldpass ? 'text' : 'password'"
                     :append-icon="showOldpass ? 'mdi-eye' : 'mdi-eye-off'"
                     outlined
-                    :rules="[rules.required, rules.min]"
                     label="Old Password"
                     v-model="oldpassword"
                     color="black"
+                    required
                   />
                 </v-col>
 
@@ -28,10 +28,10 @@
                     :type="showNewpass ? 'text' : 'password'"
                     :append-icon="showNewpass ? 'mdi-eye' : 'mdi-eye-off'"
                     outlined
-                    :rules="[rules.required, rules.min]"
                     label="New Password"
                     v-model="newpassword"
                     color="black"
+                    required
                   />
                 </v-col>
 
@@ -41,10 +41,10 @@
                     :type="showConpass ? 'text' : 'password'"
                     :append-icon="showConpass ? 'mdi-eye' : 'mdi-eye-off'"
                     outlined
-                    :rules="[rules.required, rules.min]"
                     label="Confirm new Password"
                     v-model="confirmpassword"
                     color="black"
+                    required
                   />
                 </v-col>
               </v-row>
@@ -54,21 +54,21 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+            <v-btn color="blue darken-1" text @click="save" :disabled="!isComplete" >Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
     </v-row>
-    <br>
-    <br>
+    <br />
+    <br />
     <v-card color="info" dark outlined width="70%">
-      <hr>
+      <hr />
       <center>
         <h1>Password Management</h1>
       </center>
-      <hr>
+      <hr />
     </v-card>
-    <v-card fluid width="70%" >
+    <v-card fluid width="70%">
       <v-row>
         <v-col>
           <v-btn color="primary" x-large dark @click="goto('2020')">Batch 2020</v-btn>
@@ -83,7 +83,7 @@
       <v-card width="90%">
         <v-btn block color="primary" x-large dark @click="goto('educator')">PN Educator</v-btn>
       </v-card>
-      <br>
+      <br />
     </v-card>
 
     <v-layout row justify-center>
@@ -93,8 +93,8 @@
           <v-card-text>{{sms}}</v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn v-if="changed" color="green darken-1" flat="flat" @click="gotIT">Got it</v-btn>
-            <v-btn v-else color="green darken-1" flat="flat" @click="alert = false">Got it</v-btn>
+            <v-btn v-if="changed" color="green darken-1" @click="gotIT">Gots it</v-btn>
+            <v-btn v-else color="green darken-1" @click="alert = false">Got it</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -106,6 +106,7 @@ import axios from "axios";
 /* eslint-disable */
 export default {
   data: () => ({
+    valid1: false,
     dialog: false,
     changed: false,
     showOldpass: false,
@@ -118,10 +119,7 @@ export default {
     sms: "",
     currentBatch: null,
     alert: false,
-    rules: {
-      required: value => !!value || "Required.",
-      min: v => v.length >= 8 || "Min 8 characters"
-    }
+    valid: true
   }),
   updated() {
     if (this.dialog == false) {
@@ -141,34 +139,39 @@ export default {
       this.dialog = true;
     },
     save() {
-      if (this.newpassword.length >= 8 && this.confirmpassword >= 8) {
-        let new_data = {
-          oldpassword: this.oldpassword,
-          newpassword: this.newpassword,
-          confirmpassword: this.confirmpassword
-        };
-        let url = "http://localhost:3232/changepass/" + this.batchId;
-        axios.put(url, new_data).then(resp => {
-          console.log("dbres status: ", resp.data.status);
-          if (resp.data.status) {
-            this.oldpassword = "";
-            this.newpassword = "";
-            this.confirmpassword = "";
-            this.changed = true;
-            this.sms = resp.data.sms;
-            this.alert = true;
-          } else {
-            this.oldpassword = "";
-            this.newpassword = "";
-            this.confirmpassword = "";
-            this.sms = resp.data.sms;
-            this.alert = true;
-          }
-        });
-      } else {
-        this.sms = "New and Comfirm password must be at least 8 characters";
-        this.alert = true;
-      }
+      // if (this.newpassword.length >= 8 && this.confirmpassword >= 8) {
+      let new_data = {
+        oldpassword: this.oldpassword,
+        newpassword: this.newpassword,
+        confirmpassword: this.confirmpassword
+      };
+      let url = "http://localhost:3232/changepass/" + this.batchId;
+      axios.put(url, new_data).then(resp => {
+        console.log("dbres status: ", resp.data.status);
+        if (resp.data.status) {
+          this.oldpassword = "";
+          this.newpassword = "";
+          this.confirmpassword = "";
+          this.changed = true;
+          this.sms = resp.data.sms;
+          this.alert = true;
+        } else {
+          this.oldpassword = "";
+          this.newpassword = "";
+          this.confirmpassword = "";
+          this.sms = resp.data.sms;
+          this.alert = true;
+        }
+      });
+      // } else {
+      //   this.sms = "New and Comfirm password must be at least 8 characters";
+      //   this.alert = true;
+      // }
+    }
+  },
+  computed: {
+    isComplete() {
+      return this.oldpassword && this.newpassword && this.confirmpassword;
     }
   }
 };

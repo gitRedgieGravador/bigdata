@@ -40,6 +40,7 @@ const routes = [
     {
         path: "/student/:batchnum",
         component: Student,
+        name: "student",
         props: true,
         beforeEnter(to, from, next) {
             if (store.getters.isLoggedIn) {

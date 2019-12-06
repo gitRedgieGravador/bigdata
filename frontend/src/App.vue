@@ -39,7 +39,7 @@
         </div>
         <div v-else>
           <v-row>
-            <v-col cols="3" v-if="isLoggedIn">
+            <v-col cols="3" v-if="isLoggedIn && this.$route.name != 'student'">
               <Sidebar />
             </v-col>
             <v-col class="text-center">
@@ -90,14 +90,25 @@ export default {
     isLoggedIn: function() {
       return this.$store.getters.isLoggedIn;
     },
-    isStudent: function() {
-      return this.$store.getters.isStudent;
+    isStudent:{
+      get: function() {
+        return this.$store.getters.isStudent;
+      },
+      set: function (){
+        console.log("ok")
+      }
     },
     permission: function() {
       return this.$store.getters.permission;
     }
   },
-
+  update(){
+    let myroute = this.$route.name
+    if(myroute === "student"){
+      this.isStudent = true
+    }
+    console.log("app route: ", myroute)
+  },
   methods: {
     handleRoute(route) {
       if (route == "login" || route == "notfound") {

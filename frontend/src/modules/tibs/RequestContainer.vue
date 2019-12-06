@@ -1,10 +1,11 @@
 <template>
 <v-expansion-panel>
-    <v-expansion-panel-header>
+    <v-expansion-panel-header class="text-left">
         <h3 class="text-uppercase">{{request.category}}</h3>
         <v-spacer></v-spacer>
-        <h4 v-if="display">Needed on: {{request.when}}</h4>
-        <h4 v-else>Approved on: {{request.statusDate}}</h4>
+        <h4 v-if="display">Needed on: {{new Date(request.when).toDateString()}}</h4>
+        <h4 v-else-if="rejected">Rejected on: {{new Date(request.when).toDateString()}}</h4>
+        <h4 v-else>Approved on: {{new Date(request.statusDate).toDateString()}}</h4>
     </v-expansion-panel-header>
     <v-expansion-panel-content color="light-blue lighten-3" class="pa-2">
         <v-list-item two-line>
@@ -57,7 +58,7 @@
             </v-list-item-content>
         </v-list-item>
         <v-footer color="white" class="mt-3" v-if="display">
-            <p class="font-italic body-2">Received: {{request.dateOfSubmit}}</p>
+            <p class="font-italic body-2">Received: {{new Date(request.dateOfSubmit).toDateString()}}</p>
             <v-spacer></v-spacer>
             <v-btn v-if="!pending" small dark class="ma-2" color="blue" @click="updateStatus('pending')">Pending</v-btn>
             <v-btn small dark class="ma-2" color="green accent-3" @click="updateStatus('approved')">Approve</v-btn>
@@ -101,7 +102,8 @@ export default {
         dialog: false,
         reason: "",
         display: false,
-        pending:false
+        pending:false,
+        rejected: false
     }),
     mounted(){
         let myroute = this.$route.name
@@ -110,6 +112,9 @@ export default {
         }
         if (myroute == "pending"){
             this.pending = true
+        }
+        if (myroute == "rejected"){
+            this.rejected = true
         }
     },
     methods: {

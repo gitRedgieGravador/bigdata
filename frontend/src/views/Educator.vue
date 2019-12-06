@@ -29,7 +29,7 @@
                 <div class="subheading font-weight-light grey--text">Number of Unread Request</div>
                 <v-divider class="my-2"></v-divider>
                 <v-icon class="mr-2" small>mdi-clock</v-icon>
-                <span class="caption grey--text font-weight-light">last updated 26 minutes ago</span>
+                <span class="caption grey--text font-weight-light">latest update</span>
               </v-card-text>
             </v-card>
           </v-col>
@@ -53,7 +53,7 @@
                 <div class="subheading font-weight-light grey--text">Number of Pending Request</div>
                 <v-divider class="my-2"></v-divider>
                 <v-icon class="mr-2" small>mdi-clock</v-icon>
-                <span class="caption grey--text font-weight-light">last updated 26 minutes ago</span>
+                <span class="caption grey--text font-weight-light">latest update</span>
               </v-card-text>
             </v-card>
           </v-col>
@@ -79,7 +79,7 @@
                 <div class="subheading font-weight-light grey--text">Number of Approved Request</div>
                 <v-divider class="my-2"></v-divider>
                 <v-icon class="mr-2" small>mdi-clock</v-icon>
-                <span class="caption grey--text font-weight-light">last updated 26 minutes ago</span>
+                <span class="caption grey--text font-weight-light">latest update</span>
               </v-card-text>
             </v-card>
           </v-col>
@@ -103,7 +103,7 @@
                 <div class="subheading font-weight-light grey--text">Number of Rejected Request</div>
                 <v-divider class="my-2"></v-divider>
                 <v-icon class="mr-2" small>mdi-clock</v-icon>
-                <span class="caption grey--text font-weight-light">last updated 26 minutes ago</span>
+                <span class="caption grey--text font-weight-light">latest update</span>
               </v-card-text>
             </v-card>
           </v-col>
@@ -170,9 +170,9 @@ export default {
   methods: {
     isCutOff() {
       var date = new Date();
-      var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);
-      var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-      if (firstDayi.toDateString() == date.toDateString()) {
+      var firstDayi = new Date(date.getFullYear(), date.getMonth(), 1);//"11/1/2019"//
+      var lastDayi = new Date(date.getFullYear(), date.getMonth() + 1, 0);//"11/30/2019"//
+      if (lastDayi.toLocaleString().split(",")[0] == date.toLocaleString().split(",")[0]) {
         axios.post('http://localhost:3232/cutoff', {firstDay:firstDayi, lastDay: lastDayi}).then(resp=>{
           console.log("Saved on cut off")
         }).catch(err=>{

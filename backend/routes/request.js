@@ -168,33 +168,33 @@ router.get("/numUnread", (req, res) => {
 const Most = require("../models/most");
 const Tempmost = require('../models/tempmost')
 const mongoose = require('mongoose')
-router.post('/cutoff', (req, res) => {
-  let firstDay = req.body.firstDay;
-  let lastDay = req.body.lastDay;
-  helper.addMost(firstDay, lastDay).then(resp => {
-    Tempmost.deleteMany({}).then(rev => {
-      console.log(rev)
-    })
-    res.send(resp)
-  }).catch(err => {
-    Tempmost.deleteMany({}).then(rev => {
-      console.log(rev)
-    })
-    res.send(err)
-  })
-})
+// router.post('/cutoff', (req, res) => {
+//   let firstDay = req.body.firstDay;
+//   let lastDay = req.body.lastDay;
+//   helper.addMost(firstDay, lastDay).then(resp => {
+//     Tempmost.deleteMany({}).then(rev => {
+//       console.log(rev)
+//     })
+//     res.send(resp)
+//   }).catch(err => {
+//     Tempmost.deleteMany({}).then(rev => {
+//       console.log(rev)
+//     })
+//     res.send(err)
+//   })
+// })
 
 
 const helper = require('../controller/mostFrequent')
-router.get("/mostRequest", (req, res) => {
-  Most.find({}, (err, docs) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send({ dbres: docs })
-    }
-  });
-});
+// router.get("/mostRequest", (req, res) => {
+//   Most.find({}, (err, docs) => {
+//     if (err) {
+//       res.send(err);
+//     } else {
+//       res.send({ dbres: docs })
+//     }
+//   });
+// });
 
 router.get('/stamp', (req, res) => {
   Request.find({ status: "approved" }).then(resp => {
@@ -225,6 +225,7 @@ router.get('/stamp', (req, res) => {
     res.send({ err: err })
   })
 })
+
 var moment = require("moment");
 function calculateDays(startDate, endDate) {
   var start_date = moment(startDate, 'YYYY-MM-DD HH:mm:ss');

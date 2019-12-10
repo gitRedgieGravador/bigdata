@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const userRoute = require('./routes/user')
+const analyticsRoute = require('./routes/analytics')
 const requestRoute =  require('./routes/request')
 var connect = require('./setup')
 var cors = require('cors')
@@ -9,6 +10,7 @@ app.use(cors())
 
 app.use(userRoute)
 app.use(requestRoute)
+app.use(analyticsRoute)
 var port = 3232
 const server = app.listen(port, function() {
     console.log('Api server listening on port:', port);

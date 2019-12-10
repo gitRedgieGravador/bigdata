@@ -8,7 +8,7 @@ import Sockets from '../modules/sample.vue'
 import Educator from '../views/Educator.vue'
 import Student from '../modules/geneva/Form.vue'
 import Requests from '../modules/tibs/RequestContainer.vue'
-import Mostly from '../modules/redgie/MostlyRequested.vue'
+import Mostly from '../modules/redgie/Mostly.vue'
 import Stamp from '../modules/redgie/Stamp.vue'
 import unreadRequest from "@/views/UnreadRequests.vue";
 import pendingRequest from "@/views/PendingRequests.vue";

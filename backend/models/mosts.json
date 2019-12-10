@@ -1,0 +1,35 @@
+{
+    "_id": {
+      "$oid": "5def40c6365a9b29fc9078ac"
+    },
+    "data": [
+      {
+        "category": "Center Supplies",
+        "count": 20
+      },
+      {
+        "category": "Personal",
+        "count": 15
+      }
+    ],
+    "cutOff": "11/30/2019",
+    "__v": 0
+  }
+  
+  {
+    "_id": {
+      "$oid": "5def40a4365a9b29fc9078a8"
+    },
+    "data": [
+      {
+        "category": "School Supplies",
+        "count": 3
+      },
+      {
+        "category": "Personal",
+        "count": 13
+      }
+    ],
+    "cutOff": "10/30/2019",
+    "__v": 0
+  }

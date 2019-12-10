@@ -1,12 +1,19 @@
 <template>
-  <div>
-    <v-card width="60%">
-      <div>
+  <div><br><br>
+    <v-card color="info" dark outlined width="60%">
+      <hr>
+      <center>
         <h1>Mostly Requested</h1>
-      </div>
+      </center>
+      <hr>
+    </v-card>
+    <v-card width="60%">
+      <!-- <div>
+        <h1>Mostly Requested</h1>
+      </div> -->
       <div v-if="showChart">
         <hr />
-        <Chart type="pie" :data="basicData" />
+        <Chart type="horizontalBar" :data="basicData" />
         <hr />
       </div>
     </v-card>
@@ -24,6 +31,20 @@ export default {
   data() {
     return {
       showChart: false,
+      monthNames: [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
       basicData: {
         labels: [],
         datasets: [
@@ -51,7 +72,7 @@ export default {
         .then(resp => {
           //console.log("getMost: ", resp.data);
           resp.data.forEach(element => {
-            this.basicData.labels.push(element.cutOff)
+            this.basicData.labels.push(this.monthNames[new Date(element.cutOff).getMonth()] + " " + new Date(element.cutOff).getFullYear() )
             this.basicData.datasets[0].data.push(element.data[0].count)
             this.basicData.datasets[0].label = (element.data[0].category)
             this.basicData.datasets[1].data.push(element.data[1].count)

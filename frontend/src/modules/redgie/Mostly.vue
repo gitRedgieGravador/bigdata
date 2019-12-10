@@ -1,17 +1,13 @@
 <template>
   <div>
-    <v-card>
+    <v-card width="60%">
       <div>
         <h1>Mostly Requested</h1>
       </div>
       <div v-if="showChart">
-        <div v-for="(set, i) in mainArr" :key="i">
-          <br>
-          <hr>
-            <Chart type="bar" :data="set"/>
-            <hr>
-          <br>
-        </div>
+        <hr />
+        <Chart type="pie" :data="basicData" />
+        <hr />
       </div>
     </v-card>
   </div>
@@ -28,7 +24,6 @@ export default {
   data() {
     return {
       showChart: false,
-      mainArr: [],
       basicData: {
         labels: [],
         datasets: [
@@ -36,15 +31,10 @@ export default {
             label: "kani",
             backgroundColor: "#42A5F5",
             data: []
-          }
-        ]
-      },
-      defaultData: {
-        labels: [],
-        datasets: [
+          },
           {
             label: "kani",
-            backgroundColor: "#42A5F5",
+            backgroundColor: "#e600e6",
             data: []
           }
         ]
@@ -59,19 +49,14 @@ export default {
       axios
         .get("http://localhost:3232/mostly2")
         .then(resp => {
-          console.log("getMost: ", resp.data);
+          //console.log("getMost: ", resp.data);
           resp.data.forEach(element => {
-            //this.basicData.labels.push(element.cutOff);
-            element.data.forEach(cat => {
-              this.basicData.labels.push(cat.category);
-              this.basicData.datasets[0].label = new Date(
-                element.cutOff
-              ).toDateString();
-              console.log("label: ", this.basicData.datasets[0].label)
-              this.basicData.datasets[0].data.push(cat.count);
-            });
-            this.mainArr.push(this.basicData);
-            this.basicData = this.defaultData;
+            this.basicData.labels.push(element.cutOff)
+            this.basicData.datasets[0].data.push(element.data[0].count)
+            this.basicData.datasets[0].label = (element.data[0].category)
+            this.basicData.datasets[1].data.push(element.data[1].count)
+            this.basicData.datasets[1].label = (element.data[1].category)
+            console.log("getMost: ", element);
           });
           this.showChart = true;
         })

@@ -170,8 +170,8 @@ export default {
   methods: {
     isCutOff() {
       var date = new Date();
-      var firstDayi ="10/1/2019"// new Date(date.getFullYear(), date.getMonth(), 1);//
-      var lastDayi = "10/30/2019"// new Date(date.getFullYear(), date.getMonth() + 1, 0);//
+      var firstDayi ="12/1/2019"// new Date(date.getFullYear(), date.getMonth(), 1);//
+      var lastDayi = "12/30/2019"// new Date(date.getFullYear(), date.getMonth() + 1, 0);//
       if (lastDayi.toLocaleString().split(",")[0] == date.toLocaleString().split(",")[0]) {
         axios.post('http://localhost:3232/cutoff', {firstDay:firstDayi, lastDay: lastDayi}).then(resp=>{
           console.log("Saved on cut off")
@@ -179,7 +179,7 @@ export default {
           console.log("Error on saving cut off")
         })
       } else {
-        console.log("not today");
+       console.log("not today");
       }
     },
     logout: function() {

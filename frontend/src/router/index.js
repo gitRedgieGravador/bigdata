@@ -9,6 +9,8 @@ import Educator from '../views/Educator.vue'
 import Student from '../modules/geneva/Form.vue'
 import Requests from '../modules/tibs/RequestContainer.vue'
 import Mostly from '../modules/redgie/Mostly.vue'
+import Group from '../modules/redgie/MostlyGroup.vue'
+import Individual from '../modules/redgie/MostlyIndividual.vue'
 import Stamp from '../modules/redgie/Stamp.vue'
 import unreadRequest from "@/views/UnreadRequests.vue";
 import pendingRequest from "@/views/PendingRequests.vue";
@@ -81,6 +83,36 @@ const routes = [
         path: "/mostlyrequested",
         name: "mostly",
         component: Mostly,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/mostly-individual",
+        name: "individual",
+        component: Individual,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/mostly-group",
+        name: "group",
+        component: Group,
         beforeEnter(to, from, next) {
             if (store.getters.isLoggedIn) {
                 next();

@@ -19,5 +19,5 @@ const RequestSchema = new Schema({
 });
 
 var Request = mongoose.model('Request', RequestSchema);
-//mongoimport --db finaldb --collection requests --file C:\Users\gravadorre_sd2053\Desktop\FInal\bigdata\backend\models\pnrequestdb.json
+//mongoimport --db finaldb --collection requests --file D:\final\bigdata\backend\models\pnrequestdb.json
 module.exports = Request;

@@ -79,6 +79,26 @@
                       <br>Request/month
                     </v-list-item-title>
                   </v-list-item>
+                  <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostly-individual')">
+                    <v-list-item-icon>
+                      <v-icon>mdi-chart-pie</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>
+                      Most Frequent
+                      <br>Request <br>
+                      As Individual
+                    </v-list-item-title>
+                  </v-list-item>
+                  <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostly-group')">
+                    <v-list-item-icon>
+                      <v-icon>mdi-chart-pie</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>
+                      Most Frequent
+                      <br>Request <br>
+                      As Group
+                    </v-list-item-title>
+                  </v-list-item>
                 </v-list>
               </v-expansion-panel-content>
             </v-expansion-panel>

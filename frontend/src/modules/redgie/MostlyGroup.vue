@@ -5,7 +5,7 @@
     <v-card color="info" dark outlined width="60%">
       <hr />
       <center>
-        <h1>Mostly Requested</h1>
+        <h1>Mostly Requested Group Level</h1>
       </center>
       <hr />
     </v-card>
@@ -61,9 +61,9 @@ export default {
       return color;
     },
     getMost() {
-      console.log("test on all")
+      console.log("test on group")
       axios
-        .get("http://localhost:3232/mostly2")
+        .get("http://localhost:3232/mostly-group")
         .then(resp => {
           resp.data.forEach(element => {
             var basicData = {

@@ -8,9 +8,26 @@ const sender = require("../email");
 const helper =  require('../controller/mostFrequent')
 const Tempmost = require("../models/tempmost");
 const Most = require("../models/most");
-
+const PerGroup = require('../models/pergroup')
 router.get("/mostly2", (req, res) => {
   Most.find({}).sort({"cutOff":-1}).then(resp=>{
+    res.send(resp)
+  }).catch(err=>{
+    res.send(err)
+  })
+});
+
+router.get("/mostly-group", (req, res) => {
+  PerGroup.find({isGroup: true}).sort({"cutOff":-1}).then(resp=>{
+    res.send(resp)
+  }).catch(err=>{
+    res.send(err)
+  })
+});
+
+router.get("/mostly-individual", (req, res) => {
+  PerGroup.find({isGroup: false}).sort({"cutOff":-1}).then(resp=>{
+
     res.send(resp)
   }).catch(err=>{
     res.send(err)
@@ -20,20 +37,22 @@ router.get("/mostly2", (req, res) => {
 router.post('/cutoff', (req, res) => {
   let firstDay = req.body.firstDay;
   let lastDay = req.body.lastDay;
-  helper.addMost(firstDay, lastDay).then(async resp => {
-    await Tempmost.deleteMany({}).then(rev => {
+  helper.addMost(firstDay, lastDay).then(resp => {
+    Tempmost.deleteMany({}).then(rev => {
       console.log(rev)
-    })
-    helper.addGroupMost(firstDay, lastDay).then(async resp1 =>{
-      await Tempmost.deleteMany({}).then(rev => {
-        console.log(rev)
+      helper.addGroupMost(firstDay, lastDay).then(resp1 =>{
+        Tempmost.deleteMany({}).then(rev => {
+          console.log(rev)
+          helper.addIndMost(firstDay, lastDay).then(resp1 =>{
+            Tempmost.deleteMany({}).then(rev => {
+              console.log(rev)
+            })
+          })
+        })
       })
     })
-    helper.addIndMost(firstDay, lastDay).then(async resp1 =>{
-      await Tempmost.deleteMany({}).then(rev => {
-        console.log(rev)
-      })
-    })
+    
+    
     res.send("Successfull")
   }).catch(err => {
     Tempmost.deleteMany({}).then(rev => {

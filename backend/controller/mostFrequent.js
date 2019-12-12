@@ -8,6 +8,7 @@ async function addMost(firstday, lastday) {
       statusDate: { $gte: firstday, $lt: lastday },
       status: "approved"
     }).then(async docs => {
+      console.log("all: ",docs)
       await Tempmost.insertMany(docs)
         .then(async dbrs => {
           await Tempmost.aggregate([{ $sortByCount: "$category" }])
@@ -49,17 +50,21 @@ async function addGroupMost(firstday, lastday) {
       status: "approved",
       isGroup: true
     }).then(async docs => {
+      console.log("Group: ",docs)
       await Tempmost.insertMany(docs)
         .then(async dbrs => {
           await Tempmost.aggregate([{ $sortByCount: "$category" }])
             .then(async category => {
               var myArr = [];
               category.forEach(each => {
-                let item = {
-                  category: each._id,
-                  count: each.count
-                };
-                myArr.push(item);
+                
+                  let item = {
+                    category: each._id,
+                    count: each.count
+                  };
+                  myArr.push(item);
+                
+                
               });
               console.log("the quick brown fox")
               let most = new PerGroup({ cutOff: lastday, data: myArr, isGroup: true });
@@ -90,17 +95,21 @@ async function addIndMost(firstday, lastday) {
       status: "approved",
       isGroup: false
     }).then(async docs => {
+      console.log("ind: ",docs)
       await Tempmost.insertMany(docs)
         .then(async dbrs => {
           await Tempmost.aggregate([{ $sortByCount: "$category" }])
             .then(async category => {
               var myArr = [];
               category.forEach(each => {
-                let item = {
-                  category: each._id,
-                  count: each.count
-                };
-                myArr.push(item);
+                
+                  let item = {
+                    category: each._id,
+                    count: each.count
+                  };
+                  myArr.push(item);
+                
+                
               });
               console.log("the quick brown fox")
               let most = new PerGroup({ cutOff: lastday, data: myArr, isGroup: false });

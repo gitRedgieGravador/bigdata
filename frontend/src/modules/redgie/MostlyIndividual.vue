@@ -61,7 +61,6 @@ export default {
       return color;
     },
     getMost() {
-      console.log("test on individual")
       axios
         .get("http://localhost:3232/mostly-individual")
         .then(resp => {

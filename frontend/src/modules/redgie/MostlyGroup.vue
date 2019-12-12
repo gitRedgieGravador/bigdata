@@ -61,7 +61,6 @@ export default {
       return color;
     },
     getMost() {
-      console.log("test on group")
       axios
         .get("http://localhost:3232/mostly-group")
         .then(resp => {

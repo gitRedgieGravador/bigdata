@@ -55,12 +55,14 @@
                     </v-list-item-icon>
                     <v-list-item-title>Approved<br> Request</v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/rejected-request')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-areaspline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>Rejected<br> Request</v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/stamp')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -70,6 +72,7 @@
                       <br>Per Request
                     </v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostlyrequested')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -79,6 +82,7 @@
                       <br>Request/month
                     </v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostly-individual')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -89,6 +93,7 @@
                       As Individual
                     </v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostly-group')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>

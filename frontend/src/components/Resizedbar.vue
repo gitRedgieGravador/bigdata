@@ -1,6 +1,7 @@
 <template>
   <div>
-
+    <div>
+    <!-- <v-navigation-drawer fixed permanent class="mt-cos"> -->
       <v-card>
         <center>
           <div class="pt-5">
@@ -54,12 +55,14 @@
                     </v-list-item-icon>
                     <v-list-item-title>Approved<br> Request</v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/rejected-request')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-areaspline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>Rejected<br> Request</v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/stamp')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -69,6 +72,7 @@
                       <br>Per Request
                     </v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostlyrequested')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -78,6 +82,7 @@
                       <br>Request/month
                     </v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostly-individual')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -88,6 +93,7 @@
                       As Individual
                     </v-list-item-title>
                   </v-list-item>
+                  <v-divider></v-divider>
                   <v-list-item link class="ml-6 text-center" @click="gotoRoute('/mostly-group')">
                     <v-list-item-icon>
                       <v-icon>mdi-chart-pie</v-icon>
@@ -107,11 +113,13 @@
       </v-card>
     <!-- </v-navigation-drawer> -->
   </div>
+  </div>
 </template>
 <script>
 // import io from "socket.io-client";
 // var socket = io.connect("http://localhost:3232");
 // import axios from 'axios'
+/* eslint-disable */
 export default {
   name: "sidebar",
   data() {
@@ -121,6 +129,11 @@ export default {
     };
   },
   created() {
+    // let myroute = this.$route.name
+    // if(myroute === "student"){
+    //   this.isStudent = true
+    //   this.dontshow = true
+    // }
     // this.onNewRequest();
     // axios.get("http://localhost:3232/unread").then(resp=>{
     //   this.vrnum = resp.data.count

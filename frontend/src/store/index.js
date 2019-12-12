@@ -34,6 +34,9 @@ export default new Vuex.Store({
         },
         auth_permission(state, permission){
             state.permission = permission
+        },
+        auth_user(state, user){
+            state.user = user
         }
     },
     
@@ -54,6 +57,7 @@ export default new Vuex.Store({
                         localStorage.setItem("token", token);
                         let permission = 0;
                         let isStudent = true;
+                        console.log("login: ",user)
                         if (user.isEducator) {
                             permission = 1
                             isStudent = false
@@ -62,6 +66,7 @@ export default new Vuex.Store({
                         commit("auth_success", token);
                         commit("auth_isStudent", isStudent)
                         commit("auth_permission", permission)
+                        commit("auth_user", user)
                         resolve(resp);
                     })
                     .catch(err => {
@@ -122,6 +127,7 @@ export default new Vuex.Store({
         authStatus: state => state.status,
         isStudent: state => state.isStudent,
         permission: state => state.permission,
+        user: state => state.user
     },
     modules: {}
 });

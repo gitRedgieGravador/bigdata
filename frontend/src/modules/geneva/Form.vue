@@ -2,8 +2,8 @@
   <div id="inspire">
     <div>
       <v-spacer>
-        <br />
-        <br />
+        <br>
+        <br>
       </v-spacer>
       <v-dialog v-model="dialog" max-width="700px">
         <template v-slot:activator="{ on }">
@@ -13,9 +13,9 @@
         </template>
         <v-card>
           <v-card-title class="black--text">
-             <v-avatar class="mr-3">
-                <img src="@/assets/pnlogo.png" id="logo">
-              </v-avatar>
+            <v-avatar class="mr-3">
+              <img src="@/assets/pnlogo.png" id="logo">
+            </v-avatar>
             <span class="text-center">New Request</span>
           </v-card-title>
           <v-divider color="light-blue lighten-2"></v-divider>
@@ -23,7 +23,7 @@
             <v-container>
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Fill in the following information</v-toolbar-title>
-                <v-spacer />
+                <v-spacer/>
               </v-toolbar>
               <v-card-text>
                 <v-form ref="form" v-model="valid" lazy validation>
@@ -58,8 +58,8 @@
                     label="E-mail"
                     required
                   ></v-text-field>
-                  <br />
-                  <br />
+                  <br>
+                  <br>
                   <v-select
                     v-model="selectCategory"
                     :items="category"
@@ -67,7 +67,7 @@
                     label="Request Category"
                     required
                   ></v-select>
-                  <br />
+                  <br>
                   <v-text-field
                     v-model="title"
                     :rules="[v => !!v || 'Title is required']"
@@ -97,7 +97,7 @@
                       <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
                     </v-date-picker>
                   </v-dialog>
-                  <br />
+                  <br>
                   <v-textarea
                     outlined
                     v-model="description"
@@ -109,7 +109,7 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-spacer />
+                <v-spacer/>
                 <v-btn color="blue darken-1" @click="reset">Cancel</v-btn>
                 <v-btn color="orange" :disabled="!valid" @click="sendRequest">Submit</v-btn>
               </v-card-actions>
@@ -122,9 +122,25 @@
           </v-card-actions>-->
         </v-card>
       </v-dialog>
-
+      <v-card class="mx-auto pro-card" max-width="800" height="100">
+        <v-row>
+          <v-col>
+            <img
+              class="img"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPT_NbemFlMkIwM0kw_UJEQolB-5smUbH8sln098ofAfwYOSdQ&s"
+              alt
+            >
+          </v-col>
+          <v-col class="text-left" cols="8">
+            <h2>Redgie Gravador</h2>
+            <i>
+              <p class="mail">Email: redgie@gmail.com</p>
+            </i>
+          </v-col>
+        </v-row>
+      </v-card>
       <v-card class="mx-auto" max-width="800" color="info" dark>
-        <hr />
+        <hr>
         <v-row>
           <v-col class="text-center">
             <h1>Requests</h1>
@@ -135,11 +151,11 @@
             </v-btn>
           </v-col>
         </v-row>
-        <hr />
+        <hr>
       </v-card>
 
       <v-card class="mx-auto" max-width="800">
-        <v-expansion-panels focusable>
+        <!-- <v-expansion-panels focusable>
           <v-expansion-panel v-for="(item,i) in list" :key="i">
             <v-expansion-panel-header>
               <v-row>
@@ -153,11 +169,11 @@
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               Reason: {{item.why}}
-              <br />
-              <br />Status:
-              <!-- <div class="red lighten-1 text-center">
+              <br>
+              <br>Status:
+              <div class="red lighten-1 text-center">
                 <span class="white--text">{{item.status}}</span>
-              </div>-->
+              </div>
               <div v-if="item.status == 'unread'">
                 <v-card outlined color="green" class="text-center">
                   <span class="white--text">{{item.status}}</span>
@@ -175,7 +191,27 @@
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
-        </v-expansion-panels>
+        </v-expansion-panels>-->
+        <v-simple-table fixed-header height="500px">
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">Specific</th>
+                <th class="text-left">Date needed</th>
+                <th class="text-left">Status</th>
+                <th class="text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item,i) in list" :key="i">
+                <td>{{ item.what }}</td>
+                <td>{{ item.when }}</td>
+                <td>{{ item.status }}</td>
+                <td class="text-right"><v-icon class="pointer">mdi-eye-off</v-icon></td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
       </v-card>
     </div>
   </div>
@@ -188,7 +224,7 @@ export default {
   name: "studentform",
   data() {
     return {
-    valid: true,
+      valid: true,
       list: [],
       modal: false,
       close: false,
@@ -225,38 +261,37 @@ export default {
     };
   },
   mounted() {
-    this.getData();
-    console.log("student form");
-    // this.batch = this.$route.params.batchnum;
-    // console.log("params:", this.batch);
-    // axios
-    //   .get("http://localhost:3232/getAllRequest")
-    //   .then(res => {
-    //     //this.list = res.data.data;
-    //     res.data.data.forEach(element => {
-    //       if (element.batch == this.batch) {
-    //         console.log(element)
-    //         this.list.push(element);
-    //       }
-    //     });
-    //   })
-    //   .catch(err => console.log(err));
+    this.getUser();
   },
   methods: {
-    reset () {
+    reset() {
       this.dialog = false;
-        this.$refs.form.reset();
-      },
-    getData() {
-      this.batch = this.$route.params.batchnum;
-      console.log("params:", this.batch);
+      this.$refs.form.reset();
+    },
+    manageProfile(user) {
+      //console.log("user: ", user);
+      this.getData(user.batch);
+    },
+    getUser() {
+      let usernamei = this.$route.params.username;
+      axios
+        .post(`http://localhost:3232/getuser`, { username: usernamei })
+        .then(resp => {
+          //console.log(resp);
+          this.manageProfile(resp.data.user);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    getData(batch) {
       axios
         .get("http://localhost:3232/getAllRequest")
         .then(res => {
           //this.list = res.data.data;
-          console.log(res.data);
+          console.log("req ",res.data);
           res.data.data.forEach(element => {
-            if (element.batch == this.batch) {
+            if (element.batch == batch) {
               //console.log(element);
               this.list.push(element);
             }
@@ -289,9 +324,25 @@ export default {
         .catch(err => {
           console.log(err);
         });
-        this.$refs.form.reset();
+      this.$refs.form.reset();
       //console.log(body);
     }
   }
 };
 </script>
+<style scoped>
+.img {
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+}
+.pro-card {
+  border: solid 1px black;
+}
+.mail {
+  font-size: 14px;
+}
+.pointer{
+  cursor: pointer;
+}
+</style>

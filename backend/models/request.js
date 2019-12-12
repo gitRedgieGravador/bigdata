@@ -14,6 +14,7 @@ const RequestSchema = new Schema({
     status: {type: String, required: true},
     statusDate: {type: String, required: true},
     dateOfSubmit: {type: String, required: true},
+    isGroup: {type: Boolean, required: true}
 });
 
 var Request = mongoose.model('Request', RequestSchema);

@@ -38,7 +38,7 @@ const routes = [
         }
     },
     {
-        path: "/student/:batchnum",
+        path: "/student/:username",
         component: Student,
         name: "student",
         props: true,

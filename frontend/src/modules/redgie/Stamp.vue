@@ -72,10 +72,12 @@ export default {
         entries.forEach(each=>{
           this.basicData.labels.push(each[0])
           var tempCount = 0
+          var numCount = 0
           each[1].forEach(count=>{
             tempCount += count.duration
+            numCount++
           })
-          this.basicData.datasets[0].data.push(tempCount)
+          this.basicData.datasets[0].data.push(tempCount/numCount)
         })
         this.showChart = true
       })

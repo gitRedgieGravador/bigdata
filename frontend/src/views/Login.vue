@@ -86,7 +86,7 @@ export default {
             if (resp.data.user.isEducator) {
               this.$router.push({ path: "/educator" });
             } else {
-              this.$router.push({ path: "/student/" + resp.data.user.batch });
+              this.$router.push({ path: "/student/" + resp.data.user.username });
             }
           } else {
             this.sms = resp.data.sms;

@@ -45,15 +45,15 @@ router.get("/stamp", (req, res) => {
         var kani = {
           batch: each.batch,
           category: each.category,
-          firstname: each.firstname,
-          lastname: each.lastname,
-          email: each.email,
-          what: each.what,
-          when: each.when,
-          why: each.why,
-          status: each.status,
-          statusDate: each.statusDate,
-          dateOfSubmit: each.dateOfSubmit,
+          // firstname: each.firstname,
+          // lastname: each.lastname,
+          // email: each.email,
+          // what: each.what,
+          // when: each.when,
+          // why: each.why,
+          // status: each.status,
+          // statusDate: each.statusDate,
+          // dateOfSubmit: each.dateOfSubmit,
           duration: days
         };
         tempStamp.push(kani);

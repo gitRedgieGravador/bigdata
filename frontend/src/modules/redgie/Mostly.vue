@@ -1,5 +1,7 @@
 <template>
-  <div><br><br>
+  <div>
+    <br>
+    <br>
     <v-card color="info" dark outlined width="60%">
       <hr>
       <center>
@@ -10,13 +12,17 @@
     <v-card width="60%">
       <!-- <div>
         <h1>Mostly Requested</h1>
-      </div> -->
-      <div v-if="showChart">
-        <hr />
-        <Chart type="horizontalBar" :data="basicData" />
-        <hr />
-      </div>
+      </div>-->
     </v-card>
+
+    <div v-if="showChart">
+      <div v-for="(item,i) in mainArr" :key="i">
+        <br>
+        <v-card width="60%" elevation="12">
+          <Chart type="horizontalBar" :data="item.arr" :options="item.opt"/>
+        </v-card>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -45,21 +51,18 @@ export default {
         "November",
         "December"
       ],
-      basicData: {
-        labels: [],
-        datasets: [
-          {
-            label: "kani",
-            backgroundColor: "#42A5F5",
-            data: []
-          },
-          {
-            label: "kani",
-            backgroundColor: "#e600e6",
-            data: []
-          }
-        ]
-      }
+      mainArr: []
+
+      // basicData: {
+      //   labels: [],
+      //   datasets: [
+      //     {
+      //       label: "kani",
+      //       backgroundColor: "#42A5F5",
+      //       data: []
+      //     }
+      //   ]
+      // }
     };
   },
   mounted() {
@@ -70,14 +73,43 @@ export default {
       axios
         .get("http://localhost:3232/mostly2")
         .then(resp => {
-          //console.log("getMost: ", resp.data);
           resp.data.forEach(element => {
-            this.basicData.labels.push(this.monthNames[new Date(element.cutOff).getMonth()] + " " + new Date(element.cutOff).getFullYear() )
-            this.basicData.datasets[0].data.push(element.data[0].count)
-            this.basicData.datasets[0].label = (element.data[0].category)
-            this.basicData.datasets[1].data.push(element.data[1].count)
-            this.basicData.datasets[1].label = (element.data[1].category)
-            console.log("getMost: ", element);
+            var basicData = {
+              labels: [],
+              datasets: [
+                {
+                  label: "Number Of Request",
+                  backgroundColor: "#42A5F5",
+                  data: []
+                }
+              ]
+            };
+            var myOpt = {
+              responsive: true,
+              title: {
+                display: true,
+                text: "fnldsfads"
+              },
+              scales: {
+                xAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                      steps: 10,
+                      stepValue: 6,
+                      max: 5
+                    }
+                  }
+                ]
+              }
+            };
+            element.data.forEach(each => {
+              basicData.labels.push(each.category);
+              basicData.datasets[0].data.push(each.count);
+              myOpt.title.text = "For " + element.cutOff;
+            });
+            let Obj = { arr: basicData, opt: myOpt };
+            this.mainArr.push(Obj);
           });
           this.showChart = true;
         })

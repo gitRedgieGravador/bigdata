@@ -2,31 +2,30 @@
   <div>
     <br />
     <br />
-    <v-card color="info" dark outlined>
+    <!-- <v-card color="info" dark outlined>
       <hr />
       <center>
         <h1>Pending Requests</h1>
       </center>
       <hr />
     </v-card>
-    <v-expansion-panels inset focusable>
-      <RequestCard
-        v-for="(request, index) in requests"
-        :request="request"
-        :key="index"
+    <v-expansion-panels inset focusable> -->
+      <RequestTable
+        
+        :request="requests"
+    
         @remove="removeItem(request)"
       />
-    </v-expansion-panels>
+    <!-- </v-expansion-panels> -->
   </div>
 </template>
 <script>
-import RequestCard from "../modules/tibs/RequestContainer.vue";
+import RequestTable from "../modules/tibs/RequestTable.vue";
 import { getPending } from "../actions/requestAxios.js";
-// import io from "socket.io-client";
-// var socket = io.connect("http://localhost:3232");
+
 export default {
   components: {
-    RequestCard
+    RequestTable
   },
   data() {
     return {
@@ -39,6 +38,7 @@ export default {
     removeItem(request) {
       this.requests.splice(this.requests.indexOf(request), 1);
     }
+    
   },
   mounted() {
     getPending()

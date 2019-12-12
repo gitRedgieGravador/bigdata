@@ -1,6 +1,6 @@
 <template>
 <v-expansion-panel>
-    <v-expansion-panel-header class="text-left">
+    <v-expansion-panel-header>
         <h3 class="text-uppercase">{{request.category}}</h3>
         <v-spacer></v-spacer>
         <h4 v-if="display">Needed on: {{new Date(request.when).toDateString()}}</h4>
@@ -103,7 +103,7 @@ export default {
         reason: "",
         display: false,
         pending:false,
-        rejected: false
+        rejected: false,
     }),
     mounted(){
         let myroute = this.$route.name

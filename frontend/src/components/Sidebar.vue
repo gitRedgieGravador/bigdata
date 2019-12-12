@@ -37,12 +37,6 @@
             </v-list-item-icon>
             <v-list-item-title>Pending</v-list-item-title>
           </v-list-item>
-          <v-list-item link class="ml-6" @click="gotoRoute('/editpassword')">
-            <v-list-item-icon>
-              <v-icon>mdi-account-edit</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Edit Password</v-list-item-title>
-          </v-list-item>
           <v-expansion-panels  class="ma-0 pa-0">
             <v-expansion-panel>
               <v-expansion-panel-header>

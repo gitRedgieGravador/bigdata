@@ -10,7 +10,7 @@ const Tempmost = require("../models/tempmost");
 const Most = require("../models/most");
 
 router.get("/mostly2", (req, res) => {
-  Most.find({}).sort({"cutOff":1}).then(resp=>{
+  Most.find({}).sort({"cutOff":-1}).then(resp=>{
     res.send(resp)
   }).catch(err=>{
     res.send(err)

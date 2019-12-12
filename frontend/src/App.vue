@@ -23,6 +23,12 @@
           </b>
           <span class="mr-2">Sign In</span>
         </v-btn>
+        <v-btn text @click="redirect('/signup')">
+          <b>
+            <v-icon>mdi-clipboard-account</v-icon>
+          </b>
+          <span class="mr-2">Sign Up</span>
+        </v-btn>
       </span>
     </v-app-bar>
     <v-content>
@@ -39,7 +45,7 @@
         </div>
         <div v-else>
           <v-row>
-            <v-col cols="3" v-if="isLoggedIn && this.$route.name != 'student'">
+            <v-col cols="3" v-if="isLoggedIn && this.$route.name != 'student' && this.$route.name != 'signup'">
               <Sidebar />
             </v-col>
             <v-col class="text-center">

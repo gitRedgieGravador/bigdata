@@ -2,19 +2,14 @@
   <div id="inspire">
     <div>
       <v-spacer>
-        <br>
-        <br>
+        <br />
+        <br />
       </v-spacer>
       <v-dialog v-model="dialog" max-width="700px">
-        <template v-slot:activator="{ on }">
-          <!-- <v-btn color="blue darken-1" center right absolute dark class="mb-2" v-on="on">
-            <v-icon>mdi-plus</v-icon>New Request
-          </v-btn>-->
-        </template>
         <v-card>
           <v-card-title class="black--text">
             <v-avatar class="mr-3">
-              <img src="@/assets/pnlogo.png" id="logo">
+              <img src="@/assets/pnlogo.png" id="logo" />
             </v-avatar>
             <span class="text-center">New Request</span>
           </v-card-title>
@@ -23,43 +18,19 @@
             <v-container>
               <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Fill in the following information</v-toolbar-title>
-                <v-spacer/>
+                <v-spacer />
               </v-toolbar>
               <v-card-text>
                 <v-form ref="form" v-model="valid" lazy validation>
-                  <!-- <v-select
-                    v-model="selectBatch"
-                    :items="batch"
-                    :rules="[v => !!v || 'Batch is required']"
-                    label="Batch"
+                  <br />
+                  <v-select
+                    v-model="selectperGroup"
+                    :items="perGroup"
+                    :rules="[v => !!v || 'Category is required']"
+                    label="Request Category"
                     required
-                  ></v-select>-->
-                  <v-text-field
-                    v-model="name"
-                    prepend-icon="mdi-account"
-                    :counter="15"
-                    :rules="nameRules"
-                    label="Firstname"
-                    required
-                  ></v-text-field>
-                  <v-text-field
-                    v-model="lastname"
-                    prepend-icon="mdi-account"
-                    :counter="15"
-                    :rules="lastnameRules"
-                    label="Lastname"
-                    required
-                  ></v-text-field>
-
-                  <v-text-field
-                    v-model="email"
-                    prepend-icon="mdi-email"
-                    :rules="emailRules"
-                    label="E-mail"
-                    required
-                  ></v-text-field>
-                  <br>
-                  <br>
+                  ></v-select>
+                  <br />
                   <v-select
                     v-model="selectCategory"
                     :items="category"
@@ -67,7 +38,7 @@
                     label="Request Category"
                     required
                   ></v-select>
-                  <br>
+                  <br />
                   <v-text-field
                     v-model="title"
                     :rules="[v => !!v || 'Title is required']"
@@ -97,7 +68,7 @@
                       <v-btn text color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
                     </v-date-picker>
                   </v-dialog>
-                  <br>
+                  <br />
                   <v-textarea
                     outlined
                     v-model="description"
@@ -109,38 +80,38 @@
                 </v-form>
               </v-card-text>
               <v-card-actions>
-                <v-spacer/>
+                <v-spacer />
                 <v-btn color="blue darken-1" @click="reset">Cancel</v-btn>
                 <v-btn color="orange" :disabled="!valid" @click="sendRequest">Submit</v-btn>
               </v-card-actions>
             </v-container>
           </v-card-text>
-          <!-- <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-            <v-btn color="blue darken-1" text :disabled="!valid" @click="formAction()">Save</v-btn>
-          </v-card-actions>-->
         </v-card>
       </v-dialog>
-      <v-card class="mx-auto pro-card" max-width="800" height="100">
+      <v-card class="mx-auto pro-card" max-width="800" height="180">
         <v-row>
           <v-col>
+            
             <img
               class="img"
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPT_NbemFlMkIwM0kw_UJEQolB-5smUbH8sln098ofAfwYOSdQ&s"
               alt
-            >
+            />
+            <p>{{user.username}}</p>
+            <v-btn text color="success">Update</v-btn>
+            <!-- <v-row>username</v-row> -->
           </v-col>
           <v-col class="text-left" cols="8">
-            <h2>Redgie Gravador</h2>
+            <h2>{{user.firstname}} {{user.lastname}}</h2><br>
+            <p class="mail">Batch: {{user.batch}}</p>
             <i>
-              <p class="mail">Email: redgie@gmail.com</p>
+              <p class="mail">Email: {{user.email}}</p>
             </i>
           </v-col>
         </v-row>
       </v-card>
       <v-card class="mx-auto" max-width="800" color="info" dark>
-        <hr>
+        <hr />
         <v-row>
           <v-col class="text-center">
             <h1>Requests</h1>
@@ -151,64 +122,27 @@
             </v-btn>
           </v-col>
         </v-row>
-        <hr>
+        <hr />
       </v-card>
 
       <v-card class="mx-auto" max-width="800">
-        <!-- <v-expansion-panels focusable>
-          <v-expansion-panel v-for="(item,i) in list" :key="i">
-            <v-expansion-panel-header>
-              <v-row>
-                <v-col>
-                  <h4>Title: {{item.what}}</h4>
-                </v-col>
-                <v-col>
-                  <h4>Needed: {{item.when}}</h4>
-                </v-col>
-              </v-row>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              Reason: {{item.why}}
-              <br>
-              <br>Status:
-              <div class="red lighten-1 text-center">
-                <span class="white--text">{{item.status}}</span>
-              </div>
-              <div v-if="item.status == 'unread'">
-                <v-card outlined color="green" class="text-center">
-                  <span class="white--text">{{item.status}}</span>
-                </v-card>
-              </div>
-              <div v-if="item.status == 'pending'">
-                <v-card outlined color="orange" class="text-center">
-                  <span class="white--text">{{item.status}}</span>
-                </v-card>
-              </div>
-              <div v-if="item.status == 'rejected'">
-                <v-card outlined color="error" class="text-center">
-                  <span class="white--text">{{item.status}}</span>
-                </v-card>
-              </div>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>-->
-        <v-simple-table fixed-header height="500px">
+        <v-simple-table fixed-header height="450px">
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">Specific</th>
-                <th class="text-left">Date needed</th>
-                <th class="text-left">Status</th>
-                <th class="text-right">Action</th>
+                <th class="text-center">Specific</th>
+                <th class="text-center">Date needed</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(item,i) in list" :key="i">
-                <td>{{ item.what }}</td>
-                <td>{{ item.when }}</td>
-                <td>{{ item.status }}</td>
-                <td class="text-right">
-                  <v-icon class="pointer">mdi-information-outline</v-icon>
+                <td class="text-center">{{ item.what }}</td>
+                <td class="text-center">{{ item.when }}</td>
+                <td class="text-center">{{ item.status }}</td>
+                <td class="text-center">
+                  <v-icon @click="dialog1 = true">mdi-information</v-icon>
                 </td>
               </tr>
             </tbody>
@@ -216,6 +150,21 @@
         </v-simple-table>
       </v-card>
     </div>
+    <v-dialog v-model="dialog1" max-width="500px">
+      <v-card class="pa-4">
+        <v-card-title class="black--text">
+          <v-list-item-avatar tile right size="62">
+            <img src="@/assets/pnlogo.png" />
+          </v-list-item-avatar>
+          <span class="headline">Requests Details</span>
+        </v-card-title>
+        <v-divider color="light-blue lighten-2"></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn dark color="light-blue accent-3" @click="dialog1=false">close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -230,8 +179,8 @@ export default {
       list: [],
       modal: false,
       close: false,
-      // disable: false,
       dialog: false,
+      dialog1: false,
       description: "",
       valid: true,
       name: "",
@@ -252,13 +201,10 @@ export default {
       batch: null,
       selectCategory: null,
       date: null,
+      selectperGroup: "Personal",
       currentDate: new Date().toISOString().substr(0, 10),
-      category: [
-        "Personal",
-        "Whole Batch",
-        "Center Supplies",
-        "School Supplies"
-      ],
+      category: ["Center Supplies", "School Supplies", "Health", "Others"],
+      perGroup: ["Personal", "Group"],
       title: "",
       user: {}
     };
@@ -276,57 +222,54 @@ export default {
       axios
         .post(`http://localhost:3232/getuser`, { username: usernamei })
         .then(resp => {
-          //console.log(resp);
-          let user = resp.data.user
+          let user = resp.data.user;
           this.user = user;
-          this.getData(user.batch);
+          this.getData(user.username);
         })
         .catch(err => {
           console.log(err);
         });
     },
-    getData(batch) {
+    getData(username) {
       axios
-        .get("http://localhost:3232/getAllRequest")
+        .get(`http://localhost:3232/request/${username}`)
         .then(res => {
-          //this.list = res.data.data;
-          console.log("req ", res.data);
-          res.data.data.forEach(element => {
-            if (element.batch == batch) {
-              //console.log(element);
-              this.list.push(element);
-            }
-          });
+          this.list = res.data.dbresponse;
         })
         .catch(err => console.log(err));
     },
     sendRequest() {
+      var isGroupVal = false;
+      if (this.selectperGroup === "Group") {
+        isGroupVal = true;
+      }
       let body = {
-        batch: this.batch,
+        batch: this.user.batch,
         category: this.selectCategory,
-        firstname: this.name,
-        lastname: this.lastname,
-        email: this.email,
+        firstname: this.user.firstname,
+        lastname: this.user.lastname,
+        email: this.user.email,
         what: this.title,
         when: this.date,
         why: this.description,
         status: "unread",
         statusDate: new Date(),
-        dateOfSubmit: new Date()
+        dateOfSubmit: new Date(),
+        username: this.user.username,
+        isGroup: isGroupVal
       };
       let url = "http://localhost:3232/addRequest";
       axios
         .post(url, body)
         .then(resp => {
           this.list = [];
-          this.getData();
+          this.getData(this.user.username);
           this.dialog = false;
         })
         .catch(err => {
           console.log(err);
         });
       this.$refs.form.reset();
-      //console.log(body);
     }
   }
 };

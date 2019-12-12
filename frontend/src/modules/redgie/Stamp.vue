@@ -1,18 +1,18 @@
 <template>
   <div>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <v-card color="info" dark outlined width="70%">
-      <hr>
+      <hr />
       <center>
         <h1>Approval Time Stamp</h1>
       </center>
-      <hr>
+      <hr />
     </v-card>
     <v-card width="70%">
       <div v-if="showChart">
-      <Chart type="horizontalBar" :data="basicData" :options="chartOptions"/>
+        <Chart type="horizontalBar" :data="basicData" :options="chartOptions" />
       </div>
     </v-card>
   </div>
@@ -24,7 +24,7 @@ import _ from "underscore";
 import Chart from "primevue/chart";
 export default {
   name: "Stamp",
-  components:{
+  components: {
     Chart
   },
   data() {
@@ -50,36 +50,53 @@ export default {
         datasets: [
           {
             label: "Average Time Stamp Approval",
-            backgroundColor: "#42A5F5",
+            backgroundColor: "#8c1aff",
             data: []
           }
         ]
       },
       chartOptions: {
-        responsive: true
-			}
+        responsive: true,
+        scales: {
+          xAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                steps: 10,
+                stepValue: 6,
+                max: 5
+              }
+            }
+          ]
+        }
+      }
     };
   },
   beforeMount() {
     axios
       .get("http://localhost:3232/stamp")
       .then(resp => {
-        //console.log("resp: ",resp)
         var templist = _.groupBy(resp.data.stamp, "category");
         const entries = Object.entries(templist);
         this.stamplist = entries;
-        //console.log("list: ", this.stamplist);
-        entries.forEach(each=>{
-          this.basicData.labels.push(each[0])
-          var tempCount = 0
-          var numCount = 0
-          each[1].forEach(count=>{
-            tempCount += count.duration
-            numCount++
-          })
-          this.basicData.datasets[0].data.push(tempCount/numCount)
+        entries.forEach(each => {
+          this.basicData.labels.push(each[0]);
+          var tempCount = 0;
+          var numCount = 0;
+          each[1].forEach(count => {
+            tempCount += count.duration;
+            numCount++;
+          });
+          this.basicData.datasets[0].data.push(tempCount / numCount);
+        });
+        var max = this.basicData.datasets[0].data[0]
+        this.basicData.datasets[0].data.forEach(each=>{
+          if(each > max){
+            max = each
+          }
         })
-        this.showChart = true
+        this.chartOptions.scales.xAxes[0].ticks.max = max + 1
+        this.showChart = true;
       })
       .catch(err => {
         console.log("stamp err:", err);

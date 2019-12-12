@@ -26,6 +26,14 @@ router.post("/addRequest", (req, res) => {
   });
 });
 
+router.get("/request/:username", (req, res)=>{
+  let usernamei = req.params.username;
+  Request.find({username:usernamei}).sort({dateOfSubmit: 1}).then(response=>{
+    res.send({ message: "Successfully Retrieved!!", dbresponse: response });
+  }).catch(err=>{
+    res.send(err);
+  })
+})
 
 router.get("/getAllRequest", (req, res) => {
   Request.find(
@@ -196,35 +204,35 @@ const helper = require('../controller/mostFrequent')
 //   });
 // });
 
-router.get('/stamp', (req, res) => {
-  Request.find({ status: "approved" }).then(resp => {
-    let datai = resp
-    var tempStamp = []
-    datai.forEach(each => {
-      let starti = new Date(each.dateOfSubmit).toISOString();
-      let endi = new Date(each.statusDate).toISOString();
-      let days = calculateDays(starti, endi)
-      var kani = {
-        batch: each.batch,
-        category: each.category,
-        firstname: each.firstname,
-        lastname: each.lastname,
-        email: each.email,
-        what: each.what,
-        when: each.when,
-        why: each.why,
-        status: each.status,
-        statusDate: each.statusDate,
-        dateOfSubmit: each.dateOfSubmit,
-        duration: days
-      }
-      tempStamp.push(kani)
-    })
-    res.send({ stamp: tempStamp })
-  }).catch(err => {
-    res.send({ err: err })
-  })
-})
+// router.get('/stamp', (req, res) => {
+//   Request.find({ status: "approved" }).then(resp => {
+//     let datai = resp
+//     var tempStamp = []
+//     datai.forEach(each => {
+//       let starti = new Date(each.dateOfSubmit).toISOString();
+//       let endi = new Date(each.statusDate).toISOString();
+//       let days = calculateDays(starti, endi)
+//       var kani = {
+//         batch: each.batch,
+//         category: each.category,
+//         firstname: each.firstname,
+//         lastname: each.lastname,
+//         email: each.email,
+//         what: each.what,
+//         when: each.when,
+//         why: each.why,
+//         status: each.status,
+//         statusDate: each.statusDate,
+//         dateOfSubmit: each.dateOfSubmit,
+//         duration: days
+//       }
+//       tempStamp.push(kani)
+//     })
+//     res.send({ stamp: tempStamp })
+//   }).catch(err => {
+//     res.send({ err: err })
+//   })
+// })
 
 var moment = require("moment");
 function calculateDays(startDate, endDate) {

@@ -1,25 +1,19 @@
 <template>
   <div>
-    <br>
-    <br>
+    <br />
+    <br />
     <v-card color="info" dark outlined width="60%">
-      <hr>
+      <hr />
       <center>
         <h1>Mostly Requested</h1>
       </center>
-      <hr>
+      <hr />
     </v-card>
-    <v-card width="60%">
-      <!-- <div>
-        <h1>Mostly Requested</h1>
-      </div>-->
-    </v-card>
-
     <div v-if="showChart">
       <div v-for="(item,i) in mainArr" :key="i">
-        <br>
+        <br />
         <v-card width="60%" elevation="12">
-          <Chart type="horizontalBar" :data="item.arr" :options="item.opt"/>
+          <Chart type="horizontalBar" :data="item.arr" :options="item.opt" />
         </v-card>
       </div>
     </div>
@@ -52,23 +46,20 @@ export default {
         "December"
       ],
       mainArr: []
-
-      // basicData: {
-      //   labels: [],
-      //   datasets: [
-      //     {
-      //       label: "kani",
-      //       backgroundColor: "#42A5F5",
-      //       data: []
-      //     }
-      //   ]
-      // }
     };
   },
   mounted() {
     this.getMost();
   },
   methods: {
+    getRandomColor() {
+      var letters = "0123456789ABCDEF";
+      var color = "#";
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    },
     getMost() {
       axios
         .get("http://localhost:3232/mostly2")
@@ -106,8 +97,20 @@ export default {
             element.data.forEach(each => {
               basicData.labels.push(each.category);
               basicData.datasets[0].data.push(each.count);
-              myOpt.title.text = "For " + element.cutOff;
+              basicData.datasets[0].backgroundColor = this.getRandomColor()
+              myOpt.title.text =
+                "Mostly Requested for " +
+                this.monthNames[new Date(element.cutOff).getMonth()] +
+                " " +
+                new Date(element.cutOff).getFullYear();
             });
+            var max = basicData.datasets[0].data[0];
+            basicData.datasets[0].data.forEach(each => {
+              if (each > max) {
+                max = each;
+              }
+            });
+            myOpt.scales.xAxes[0].ticks.max = max + 1;
             let Obj = { arr: basicData, opt: myOpt };
             this.mainArr.push(Obj);
           });

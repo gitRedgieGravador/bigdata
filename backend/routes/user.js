@@ -15,10 +15,14 @@ router.post("/register", function(req, res) {
     if (err) {
       return res.send("error on saving!!");
     } else {
-      return res.send({
-        sms: "Successfully Saved",
-        user: resp
-      });
+      var acc_token = jwt.sign({ resp }, "token1234", { expiresIn: "12h" });
+        return res.send({
+          status: true,
+          auth: true,
+          user: resp,
+          token: acc_token,
+          sms: "success"
+        });
     }
   });
 });

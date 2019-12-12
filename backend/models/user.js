@@ -2,9 +2,23 @@ const mongoose = require('mongoose');
 //Define a schema
 const Schema = mongoose.Schema;
 const UserSchema = new Schema({
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
+        type: String,
+        required: true
+    },
+    batch: { type: String, required: true },
+    email: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         required: true,
+        unique: true
     },
     password: {
         type: String,
@@ -12,9 +26,9 @@ const UserSchema = new Schema({
     },
     isEducator: {
         type: Boolean,
-        required: true
-    },
-    batch: {type: String, required: true}
+        required: true,
+        default: false
+    }
 });
 
 var User = mongoose.model('User', UserSchema);

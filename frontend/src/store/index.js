@@ -102,6 +102,7 @@ export default new Vuex.Store({
                         commit("auth_success", token);
                         commit("auth_isStudent", isStudent)
                         commit("auth_permission", permission)
+                        commit("auth_user", user)
                         resolve(resp);
                     })
                     .catch(err => {

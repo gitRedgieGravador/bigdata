@@ -20,17 +20,31 @@ router.get("/mostly2", (req, res) => {
 router.post('/cutoff', (req, res) => {
   let firstDay = req.body.firstDay;
   let lastDay = req.body.lastDay;
-  helper.addMost(firstDay, lastDay).then(resp => {
-    Tempmost.deleteMany({}).then(rev => {
+  helper.addMost(firstDay, lastDay).then(async resp => {
+    await Tempmost.deleteMany({}).then(rev => {
       console.log(rev)
     })
-    res.send(resp)
+    helper.addGroupMost(firstDay, lastDay).then(async resp1 =>{
+      await Tempmost.deleteMany({}).then(rev => {
+        console.log(rev)
+      })
+    })
+    helper.addIndMost(firstDay, lastDay).then(async resp1 =>{
+      await Tempmost.deleteMany({}).then(rev => {
+        console.log(rev)
+      })
+    })
+    res.send("Successfull")
   }).catch(err => {
     Tempmost.deleteMany({}).then(rev => {
       console.log(rev)
     })
     res.send(err)
   })
+  // Tempmost.deleteMany({}).then(rev => {
+  //   console.log(rev)
+  // })
+  // res.send(resp)
 })
 
 router.get("/stamp", (req, res) => {

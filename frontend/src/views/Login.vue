@@ -86,6 +86,7 @@ export default {
             if (resp.data.user.isEducator) {
               this.$router.push({ path: "/educator" });
             } else {
+              localStorage.setItem("username", resp.data.user.username)
               this.$router.push({ path: "/student/" + resp.data.user.username });
             }
           } else {

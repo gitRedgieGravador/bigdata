@@ -50,7 +50,7 @@ export default {
         datasets: [
           {
             label: "Average Time Stamp Approval",
-            backgroundColor: "#8c1aff",
+            backgroundColor: "#0099ff",
             data: []
           }
         ]

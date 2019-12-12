@@ -16,6 +16,7 @@ import approvedRequest from "@/views/ApprovedRequests.vue";
 import rejectedRequest from "@/views/RejectedRequests.vue";
 import Editpassword from '../modules/Kiray/Editpassword.vue'
 import Signup from '../modules/Kiray/Signup.vue'
+import Editinformation from '../modules/Kiray/EditInformation.vue'
 Vue.use(VueRouter);
 /* eslint-disable */
 const routes = [
@@ -31,6 +32,7 @@ const routes = [
     },
     {
         path: "/educator",
+        name: 'educator',
         component: Educator,
         beforeEnter(to, from, next) {
             if (store.getters.isLoggedIn) {
@@ -47,6 +49,22 @@ const routes = [
         path: "/student/:username",
         component: Student,
         name: "student",
+        props: true,
+        beforeEnter(to, from, next) {
+            if (store.getters.isLoggedIn) {
+                next();
+            } else {
+                next("/");
+            }
+        },
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: "/editinfo/:passid",
+        component: Editinformation,
+        name: "editinfo",
         props: true,
         beforeEnter(to, from, next) {
             if (store.getters.isLoggedIn) {

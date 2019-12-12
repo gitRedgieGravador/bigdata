@@ -98,7 +98,7 @@
               alt
             />
             <p>{{user.username}}</p>
-            <v-btn text color="success">Update</v-btn>
+             <v-btn text color="success" @click="edit">Update</v-btn>
             <!-- <v-row>username</v-row> -->
           </v-col>
           <v-col class="text-left" cols="8">
@@ -142,7 +142,7 @@
                 <td class="text-center">{{ item.when }}</td>
                 <td class="text-center">{{ item.status }}</td>
                 <td class="text-center">
-                  <v-icon @click="dialog1 = true">mdi-information</v-icon>
+                  <v-icon @click="openDetails(item.why, item.category, item.dateOfSubmit, item.statusDate)">mdi-information</v-icon>
                 </td>
               </tr>
             </tbody>
@@ -159,6 +159,35 @@
           <span class="headline">Requests Details</span>
         </v-card-title>
         <v-divider color="light-blue lighten-2"></v-divider>
+        <br />
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>{{dialogInfo.category}}</v-list-item-title>
+            <v-divider color="gray"></v-divider>
+            <v-list-item-subtitle>Category</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>{{dialogInfo.why}}</v-list-item-title>
+            <v-divider color="gray"></v-divider>
+            <v-list-item-subtitle>Reason</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>{{dialogInfo.dateOfSubmit}}</v-list-item-title>
+            <v-divider color="gray"></v-divider>
+            <v-list-item-subtitle>Date Submitted</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item two-line>
+          <v-list-item-content>
+            <v-list-item-title>{{dialogInfo.statusDate}}</v-list-item-title>
+            <v-divider color="gray"></v-divider>
+            <v-list-item-subtitle>Status Date</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn dark color="light-blue accent-3" @click="dialog1=false">close</v-btn>
@@ -175,6 +204,12 @@ export default {
   name: "studentform",
   data() {
     return {
+      dialogInfo: {
+        why: "",
+        category: "",
+        dateOfSubmit: "",
+        statusDate: ""
+      },
       valid: true,
       list: [],
       modal: false,
@@ -213,12 +248,23 @@ export default {
     this.getUser();
   },
   methods: {
+    openDetails(why, category, dateOfSubmit, statusDate){
+      this.dialogInfo.why = why
+      this.dialogInfo.category = category
+      this.dialogInfo.dateOfSubmit = new Date(dateOfSubmit).toDateString()
+      this.dialogInfo.statusDate = new Date(statusDate).toDateString()
+      this.dialog1 = true
+    },
+    edit(){
+      localStorage.setItem("username", this.user.username)
+      this.$router.push({path: `/editinfo/${this.user._id}`})
+    },
     reset() {
       this.dialog = false;
       this.$refs.form.reset();
     },
     getUser() {
-      let usernamei = this.$route.params.username;
+      let usernamei = this.$route.params.username || localStorage.getItem("username")
       axios
         .post(`http://localhost:3232/getuser`, { username: usernamei })
         .then(resp => {

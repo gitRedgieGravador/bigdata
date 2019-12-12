@@ -88,13 +88,13 @@ router.post("/login", function(req, res) {
   });
 });
 
-router.put("/changepass/:batch", (req, res) => {
+router.put("/changepass/:id", (req, res) => {
   console.log("been here :");
-  let batchi = req.params.batch;
+  let userId = req.params.id;
   var oldpassword = req.body.oldpassword;
   var newpassword = req.body.newpassword;
   var confirmpassword = req.body.confirmpassword;
-  User.findOne({ batch: batchi })
+  User.findOne({ _id: userId })
     .then(dbres => {
       console.log("test 1")
       var verifylast = bcrypt.compareSync(oldpassword, dbres.password)
@@ -104,10 +104,10 @@ router.put("/changepass/:batch", (req, res) => {
           console.log("test 3")
           let newpasswordi = bcrypt.hashSync(newpassword, saltRounds);
           let new_data = {password: newpasswordi}
-          let batchID = dbres._id
-          console.log("id: ",batchID)
+          let idUser = dbres._id
+          console.log("id: ",idUser)
           console.log("new_data: ",new_data)
-          User.findByIdAndUpdate(batchID, new_data, (err, change)=>{
+          User.findByIdAndUpdate(idUser, new_data, (err, change)=>{
             if (err){
               console.log("test 4")
               res.send({
@@ -149,6 +149,8 @@ router.put("/changepass/:batch", (req, res) => {
       });
     });
 });
+
+
 router.post("/socket", (req, res) => {});
 
 module.exports = router;

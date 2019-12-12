@@ -207,7 +207,9 @@
                 <td>{{ item.what }}</td>
                 <td>{{ item.when }}</td>
                 <td>{{ item.status }}</td>
-                <td class="text-right"><v-icon class="pointer">mdi-eye-off</v-icon></td>
+                <td class="text-right">
+                  <v-icon class="pointer">mdi-information-outline</v-icon>
+                </td>
               </tr>
             </tbody>
           </template>
@@ -257,7 +259,8 @@ export default {
         "Center Supplies",
         "School Supplies"
       ],
-      title: ""
+      title: "",
+      user: {}
     };
   },
   mounted() {
@@ -268,17 +271,15 @@ export default {
       this.dialog = false;
       this.$refs.form.reset();
     },
-    manageProfile(user) {
-      //console.log("user: ", user);
-      this.getData(user.batch);
-    },
     getUser() {
       let usernamei = this.$route.params.username;
       axios
         .post(`http://localhost:3232/getuser`, { username: usernamei })
         .then(resp => {
           //console.log(resp);
-          this.manageProfile(resp.data.user);
+          let user = resp.data.user
+          this.user = user;
+          this.getData(user.batch);
         })
         .catch(err => {
           console.log(err);
@@ -289,7 +290,7 @@ export default {
         .get("http://localhost:3232/getAllRequest")
         .then(res => {
           //this.list = res.data.data;
-          console.log("req ",res.data);
+          console.log("req ", res.data);
           res.data.data.forEach(element => {
             if (element.batch == batch) {
               //console.log(element);
@@ -342,7 +343,7 @@ export default {
 .mail {
   font-size: 14px;
 }
-.pointer{
+.pointer {
   cursor: pointer;
 }
 </style>

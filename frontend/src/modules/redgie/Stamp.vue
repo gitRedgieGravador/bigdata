@@ -6,7 +6,7 @@
     <v-card color="info" dark outlined width="70%">
       <hr />
       <center>
-        <h1>Approval Time Stamps</h1>
+        <h1>Approval Time Stamp</h1>
       </center>
       <hr />
     </v-card>

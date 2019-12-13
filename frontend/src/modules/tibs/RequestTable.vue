@@ -1,21 +1,41 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="request" class="elevation-1">
+    <v-data-table :headers="headers" :items="request" :search="search" class="elevation-1">
       <!-- <template v-slot:top> -->
 
       <!-- </template> -->
+       <template v-slot:top>
+        <v-toolbar flat class="ma-5 mb-12 pa-5">
+          <!-- <v-spacer></v-spacer> -->
+          <v-avatar tile right class="mr-2" size="62">
+            <img src="@/assets/pnlogo.png">
+          </v-avatar>
+          <v-toolbar-title class="text-center display-2">{{title}}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-toolbar>
+      </template>
       <template v-slot:item.info="{ item }">
         <v-icon small @click="dialog= true, details(item)">mdi-information</v-icon>
-        <v-dialog v-model="dialog" max-width="700px">
+        <v-dialog v-model="dialog" persistent max-width="600px">
           <v-card class="pa-6">
+        <v-icon class="float-right" large @click="dialog= false">mdi-window-close</v-icon>
+
             <v-card-title class="black--text">
               <v-list-item-avatar tile right size="62">
                 <img src="@/assets/pnlogo.png" />
               </v-list-item-avatar>
               <span class="headline">Details</span>
             </v-card-title>
+            
             <v-divider color="light-blue lighten-2"></v-divider>
-            <!-- <v-btn dark color="light-blue accent-3" @click="dialog= false">close</v-btn> -->
+            <!-- <v-card-text> -->
             <v-list-item two-line>
               <v-list-item-content>
                 <v-list-item-title>{{firstname + " " + lastname}}</v-list-item-title>
@@ -42,11 +62,11 @@
                 <v-list-item-subtitle>Why</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
-            <!-- <v-divider></v-divider> -->
+            <!-- </v-card-text> -->
 
             <!-- <p class="font-italic body-2">Received:</p> -->
             <!-- <v-spacer></v-spacer> -->
-            <!-- <v-btn dark color="light-blue accent-3" @click="dialog=false">close</v-btn> -->
+            <!-- <v-btn dark color="light-blue accent-3" @click="dialog= false">close</v-btn> -->
           </v-card>
         </v-dialog>
       </template>
@@ -97,7 +117,7 @@ import { updateRequest, updateWhy } from "@/actions/requestAxios.js";
 
 export default {
   // name: "RequestTable",
-  props: ["request"],
+  props: ["request", "title"],
   data: () => ({
     openDetails: false,
     search: "",
@@ -130,7 +150,7 @@ export default {
       { text: "Nedeed on", value: "when" },
       { text: "Batch", value: "batch" },
       { text: "Actions", value: "action", sortable: false },
-      { text: "", value: "info", sortable: false }
+      { text: "Details", value: "info", sortable: false }
     ]
   }),
   mounted() {
@@ -160,7 +180,11 @@ export default {
       this.id = item._id;
     },
     updateStatus(status, item) {
-      updateRequest(status, item._id)
+        const data = {
+            status: status,
+            statusDate: new Date().toISOString().substr(0, 10),
+        }
+      updateRequest(data, item._id)
         .then(data => {
           this.$emit("updateRequest", data.data);
           setTimeout(

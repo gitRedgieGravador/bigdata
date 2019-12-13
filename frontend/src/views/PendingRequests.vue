@@ -1,7 +1,5 @@
 <template>
   <div>
-    <br />
-    <br />
     <!-- <v-card color="info" dark outlined>
       <hr />
       <center>
@@ -11,9 +9,8 @@
     </v-card>
     <v-expansion-panels inset focusable> -->
       <RequestTable
-        
         :request="requests"
-    
+        :title="'Pending Requests'"
         @remove="removeItem(request)"
       />
     <!-- </v-expansion-panels> -->

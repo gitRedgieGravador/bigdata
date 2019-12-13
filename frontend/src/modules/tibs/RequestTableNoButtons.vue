@@ -1,13 +1,30 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="request" class="elevation-1">
+    <v-data-table :headers="headers" :items="request" :search="search" class="elevation-1">
       <!-- <template v-slot:top> -->
-
+          <template v-slot:top>
+        <v-toolbar flat class="ma-5 mb-12 pa-5">
+          <!-- <v-spacer></v-spacer> -->
+          <v-avatar tile right class="mr-2" size="62">
+            <img src="@/assets/pnlogo.png">
+          </v-avatar>
+          <v-toolbar-title class="text-center display-2">{{title}}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-toolbar>
+      </template>
       <!-- </template> -->
       <template v-slot:item.info="{ item }">
         <v-icon small @click="dialog= true, details(item)">mdi-information</v-icon>
-        <v-dialog v-model="dialog" max-width="700px">
+        <v-dialog v-model="dialog" persistent max-width="600px">
           <v-card class="pa-6">
+        <v-icon class="float-right" large @click="dialog= false">mdi-window-close</v-icon>
             <v-card-title class="black--text">
               <v-list-item-avatar tile right size="62">
                 <img src="@/assets/pnlogo.png" />
@@ -60,7 +77,7 @@
 
 export default {
   // name: "RequestTable",
-  props: ["request"],
+  props: ["request", "title"],
   data: () => ({
     openDetails: false,
     search: "",
@@ -92,7 +109,7 @@ export default {
       { text: "Category", value: "category" },
       { text: "Nedeed on", value: "when" },
       { text: "Batch", value: "batch" },
-      { text: "", value: "info", sortable: false }
+      { text: "Details", value: "info", sortable: false }
     ]
   }),
   mounted() {

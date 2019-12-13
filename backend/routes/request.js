@@ -50,88 +50,87 @@ router.get("/getAllRequest", (req, res) => {
 });
 
 router.get('/getUnread', (req, res) => {
-  Request.find({ status: "unread" }).sort({ when: 1 }).exec((err, data) => {
-    if (err) return res.send(err);
-    return res.send({
-      message: "Success",
-      data
-    })
+  Request.find({ status: "unread" }).sort({ dateOfSubmit: -1 }).exec((err, data) => {
+      if (err) return res.send(err);
+      return res.send({
+          message: "Success",
+          data
+      })
   })
 })
 
 router.get('/getApproved', (req, res) => {
-  Request.find({ status: "approved" }, (err, data) => {
-    if (err) return res.send(err);
-    return res.send({
-      message: "Success",
-      data
-    })
+  Request.find({ status: "approved" }).sort({ statusDate: -1 }).exec((err, data) => {
+      if (err) return res.send(err);
+      return res.send({
+          message: "Success",
+          data
+      })
   })
 })
 
 router.get('/getPending', (req, res) => {
-  Request.find({ status: "pending" }, (err, data) => {
-    if (err) return res.send(err);
-    return res.send({
-      message: "Success",
-      data
-    })
+  Request.find({ status: "pending" }).sort({ statusDate: -1 }).exec((err, data) => {
+      if (err) return res.send(err);
+      return res.send({
+          message: "Success",
+          data
+      })
   })
 })
 
 router.get('/getRejected', (req, res) => {
-  Request.find({ status: "rejected" }, (err, data) => {
-    if (err) return res.send(err);
-    return res.send({
-      message: "Success",
-      data
-    })
+  Request.find({ status: "rejected" }).sort({ statusDate: -1 }).exec((err, data) => {
+      if (err) return res.send(err);
+      return res.send({
+          message: "Success",
+          data
+      })
   })
 })
 router.put('/updateRequest/:id', (req, res) => {
+  console.log(req.body.data)
   var io = req.app.get('socketio');
-  Request.findByIdAndUpdate(req.params.id, {
-    status: req.body.data
-  }, (err, data) => {
-    if (err) return res.send(err);
-    Request.countDocuments({ status: "unread" }).then(resp => {
-      io.emit('countEvent', {status: "unread", count: resp});
-    })
-    Request.countDocuments({ status: "pending" }).then(resp => {
-      io.emit('countEvent', {status: "pending", count: resp});
-    })
-    Request.countDocuments({ status: "rejected" }).then(resp => {
-      io.emit('countEvent', {status: "rejected", count: resp});
-    })
-    Request.countDocuments({ status: "approved" }).then(resp => {
-      io.emit('countEvent', {status: "approved", count: resp});
-    })
-    return res.send({
-      message: "Successfully updated!",
-      data
-    })
+  Request.findByIdAndUpdate(req.params.id, req.body.data, (err, data) => {
+      if (err) return res.send(err);
+      Request.countDocuments({ status: "unread" }).then(resp => {
+          io.emit('countEvent', { status: "unread", count: resp });
+      })
+      Request.countDocuments({ status: "pending" }).then(resp => {
+          io.emit('countEvent', { status: "pending", count: resp });
+      })
+      Request.countDocuments({ status: "rejected" }).then(resp => {
+          io.emit('countEvent', { status: "rejected", count: resp });
+      })
+      Request.countDocuments({ status: "approved" }).then(resp => {
+          io.emit('countEvent', { status: "approved", count: resp });
+      })
+      return res.send({
+          message: "Successfully updated!",
+          data
+      })
   })
 })
 
 router.put('/updateWhy/:id', (req, res) => {
   Request.findByIdAndUpdate(req.params.id, {
-    why: req.body.data
+      why: req.body.data
   }, (err, data) => {
-    if (err) return res.send(err);
-    return res.send({
-      message: "Successfully updated!",
-      data
-    })
+      if (err) return res.send(err);
+      return res.send({
+          message: "Successfully updated!",
+          data
+      })
   })
 })
 
 router.post('/deleteRequest/:id', (req, res) => {
   Request.findByIdAndRemove(req.params.id, (err, data) => {
-    if (err) return res.send(err);
-    return res.send({
-      message: "Succescfully deleted",
-      data
-    })
+      if (err) return res.send(err);
+      return res.send({
+          message: "Succescfully deleted",
+          data
+      })
   })
 })
 

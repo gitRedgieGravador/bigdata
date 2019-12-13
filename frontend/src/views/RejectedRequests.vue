@@ -13,7 +13,7 @@
       <RequestTable
         
         :request="requests"
-    
+        :title="'Rejected Requests'"
         @remove="removeItem(request)"
       />
     <!-- </v-expansion-panels> -->

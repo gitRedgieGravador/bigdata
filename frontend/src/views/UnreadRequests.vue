@@ -13,7 +13,7 @@
       <RequestTable
         
         :request="requests"
-    
+        :title="'Unread Requests'"
         @remove="removeItem(request)"
       />
     <!-- </v-expansion-panels> -->

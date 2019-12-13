@@ -1,0 +1,26 @@
+{
+    "_id": {
+      "$oid": "5df1edc3ca50e53ca09f86bd"
+    },
+    "isEducator": false,
+    "firstname": "Jessa Mae",
+    "lastname": "Yosores",
+    "batch": "2021",
+    "email": "jessa@gmail.com",
+    "password": "$2a$10$IlhYWLPuTd8T4BijoMaq2Ox524gSc66vjRylcVePm9vsv0Lk1wyom",
+    "username": "yosoresje",
+    "__v": 0
+  }
+  {
+    "_id": {
+      "$oid": "5df1ea7106fdc134982b428e"
+    },
+    "isEducator": true,
+    "firstname": "Geneva",
+    "lastname": "Rivas",
+    "batch": "2021",
+    "email": "gen@gmail.com",
+    "password": "$2a$10$ul3oIUtKCZy5eFjRMK8A9Ol9GhKpCJqsqWrV41.I4N/W7FG3yhkj2",
+    "username": "rivasge",
+    "__v": 0
+  }

@@ -1,0 +1,8 @@
+cd to frontend then npm run serve to start frontend
+if dependencies not found npm install
+
+cd to backend then npm run dev to start backend
+if dependencies not found npm install
+
+save the educator user manually
+student user can sign up

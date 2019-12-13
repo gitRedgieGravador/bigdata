@@ -1,0 +1,38 @@
+{
+    "_id": {
+      "$oid": "5df323bd1230130660e3dede"
+    },
+    "data": [
+      {
+        "category": "Health",
+        "count": 2
+      },
+      {
+        "category": "Center Supplies",
+        "count": 1
+      }
+    ],
+    "cutOff": "11/30/2019",
+    "__v": 0
+  }
+  {
+    "_id": {
+      "$oid": "5df323d31230130660e3deea"
+    },
+    "data": [
+      {
+        "category": "School Supplies",
+        "count": 4
+      },
+      {
+        "category": "Others",
+        "count": 1
+      },
+      {
+        "category": "Health",
+        "count": 1
+      }
+    ],
+    "cutOff": "10/30/2019",
+    "__v": 0
+  }
